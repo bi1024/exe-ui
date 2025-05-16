@@ -13,6 +13,11 @@ import {
 } from "./ui/card";
 import { Checkbox } from "./ui/checkbox";
 import { Eye, EyeOff } from "lucide-react";
+import { useDispatch } from "react-redux";
+import axios from "axios";
+import { setCredentials } from "../store/slices/authSlice";
+import apiClient from "../api/apiClient";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -20,18 +25,36 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const [rememberMe, setRememberMe] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
+  // const handleSubmit = async (e: React.FormEvent) => {
+  //   e.preventDefault();
+  //   setIsLoading(true);
+
+  //   // Simulate API call
+  //   setTimeout(() => {
+  //     console.log("Login attempt with:", { email, password, rememberMe });
+  //     setIsLoading(false);
+  //     // In a real app, you would redirect after successful login
+  //     // navigate("/dashboard");
+  //   }, 1500);
+  // };
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
+    try {
+      const response = await apiClient.post("/auth/login", { email, password });
 
-    // Simulate API call
-    setTimeout(() => {
-      console.log("Login attempt with:", { email, password, rememberMe });
+      dispatch(setCredentials(response.data));
       setIsLoading(false);
-      // In a real app, you would redirect after successful login
-      // navigate("/dashboard");
-    }, 1500);
+      navigate("/");
+
+      // Redirect or perform additional actions
+    } catch (error) {
+      console.error("Login failed:", error);
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -44,7 +67,7 @@ const Login = () => {
         <CardContent>
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="space-y-2">
-              <Label htmlFor="email">Email</Label>
+              <Label htmlFor="username">Username</Label>
               <Input
                 id="email"
                 type="email"
@@ -57,12 +80,12 @@ const Login = () => {
             <div className="space-y-2">
               <div className="flex items-center justify-between">
                 <Label htmlFor="password">Password</Label>
-                <Link
+                {/* <Link
                   to="/forgot-password"
                   className="text-sm text-primary hover:underline"
                 >
                   Forgot password?
-                </Link>
+                </Link> */}
               </div>
               <div className="relative">
                 <Input
@@ -86,7 +109,7 @@ const Login = () => {
                 </button>
               </div>
             </div>
-            <div className="flex items-center space-x-2">
+            {/* <div className="flex items-center space-x-2">
               <Checkbox
                 id="remember"
                 checked={rememberMe}
@@ -98,7 +121,7 @@ const Login = () => {
               >
                 Remember me
               </Label>
-            </div>
+            </div> */}
             <Button type="submit" className="w-full" disabled={isLoading}>
               {isLoading ? "Signing in..." : "Sign in"}
             </Button>
@@ -111,7 +134,7 @@ const Login = () => {
               Sign up
             </Link>
           </div>
-          <div className="relative">
+          {/* <div className="relative">
             <div className="absolute inset-0 flex items-center">
               <span className="w-full border-t" />
             </div>
@@ -128,7 +151,7 @@ const Login = () => {
             <Button variant="outline" type="button" className="w-full">
               Apple
             </Button>
-          </div>
+          </div> */}
         </CardFooter>
       </Card>
     </div>

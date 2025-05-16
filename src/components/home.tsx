@@ -31,8 +31,14 @@ import {
   Video,
 } from "lucide-react";
 import TeacherGrid from "./TeacherGrid";
+import { useSelector } from "react-redux";
+import { RootState } from "@/store";
 
 const HomePage = () => {
+  const user = useSelector((state: RootState) => state.auth.user);
+  const token = useSelector((state: RootState) => state.auth.token);
+  console.log(user, token);
+
   // Mock data for featured teachers
   const featuredTeachers = [
     {
@@ -83,13 +89,13 @@ const HomePage = () => {
               <Link to="/how-it-works" className="text-sm font-medium">
                 How It Works
               </Link>
-              <Link to="/pricing" className="text-sm font-medium">
+              {/* <Link to="/pricing" className="text-sm font-medium">
                 Pricing
-              </Link>
+              </Link> */}
             </nav>
           </div>
           <div className="flex items-center gap-4">
-            <Link to="/dashboard">
+            {/* <Link to="/dashboard">
               <Button
                 variant="ghost"
                 size="sm"
@@ -98,15 +104,26 @@ const HomePage = () => {
                 <Calendar className="h-4 w-4" />
                 Dashboard
               </Button>
-            </Link>
-            <Link to="/login">
-              <Button variant="ghost" size="sm">
-                Login
-              </Button>
-            </Link>
-            <Link to="/signup">
-              <Button size="sm">Sign Up</Button>
-            </Link>
+            </Link> */}
+            {user ? (
+              <>
+                user.email
+                <Button variant="ghost" size="sm">
+                  Log out
+                </Button>
+              </>
+            ) : (
+              <>
+                <Link to="/login">
+                  <Button variant="ghost" size="sm">
+                    Login
+                  </Button>
+                </Link>
+                <Link to="/register">
+                  <Button size="sm">Sign Up</Button>
+                </Link>
+              </>
+            )}
           </div>
         </div>
       </header>
