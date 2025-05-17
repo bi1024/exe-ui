@@ -8,6 +8,7 @@ import LessonInfoPage from "./components/LessonInfoPage";
 import PaymentPage from "./components/PaymentPage";
 import PaymentConfirmationPage from "./components/PaymentConfirmationPage";
 import routes from "tempo-routes";
+import CreateSkill from "./pages/teacher/CreateSkill";
 
 function App() {
   return (
@@ -24,6 +25,11 @@ function App() {
             path="/payment-confirmation/:lessonId"
             element={<PaymentConfirmationPage />}
           />
+
+          <Route
+            path='/teacher/create-skill' element={<CreateSkill/>}
+          />
+
         </Routes>
         {import.meta.env.VITE_TEMPO === "true" && useRoutes(routes)}
       </>
