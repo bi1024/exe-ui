@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 import { Label } from "./ui/label";
@@ -19,15 +19,19 @@ import {
   SelectTrigger,
   SelectValue,
 } from "./ui/select";
+import apiClient from "@/api/apiClient";
 
 const Register = () => {
+  const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState({
-    firstName: "",
-    lastName: "",
+    username: "",
     email: "",
     password: "",
-    accountType: "student",
+    fullname: "",
+
+    phone: "",
+    role: "user",
   });
   const [isLoading, setIsLoading] = useState(false);
 
@@ -36,21 +40,34 @@ const Register = () => {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleAccountTypeChange = (value: string) => {
-    setFormData((prev) => ({ ...prev, accountType: value }));
+  const handleRoleChange = (value: string) => {
+    setFormData((prev) => ({ ...prev, role: value }));
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
 
+    const submissionData = {
+      username: formData.username,
+      email: formData.email,
+      password: formData.password,
+      fullname: formData.fullname,
+      phone: formData.phone,
+      role: formData.role,
+    };
+
     // Simulate API call
-    setTimeout(() => {
-      console.log("Registration attempt with:", formData);
+    try {
+      const response = await apiClient.post("/auth/register", submissionData);
       setIsLoading(false);
-      // In a real app, you would redirect after successful registration
-      // navigate("/dashboard");
-    }, 1500);
+      navigate("/login");
+
+      // Redirect or perform additional actions
+    } catch (error) {
+      console.error("Login failed:", error);
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -60,36 +77,33 @@ const Register = () => {
           <CardTitle className="text-2xl font-bold">
             Create an account
           </CardTitle>
-          <CardDescription>
-            Enter your information to get started
-          </CardDescription>
+          <CardDescription>Enter your details to register</CardDescription>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit} className="space-y-4">
-            <div className="grid grid-cols-2 gap-4">
-              <div className="space-y-2">
-                <Label htmlFor="firstName">First Name</Label>
-                <Input
-                  id="firstName"
-                  name="firstName"
-                  placeholder="John"
-                  value={formData.firstName}
-                  onChange={handleChange}
-                  required
-                />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="lastName">Last Name</Label>
-                <Input
-                  id="lastName"
-                  name="lastName"
-                  placeholder="Doe"
-                  value={formData.lastName}
-                  onChange={handleChange}
-                  required
-                />
-              </div>
+            <div className="space-y-2">
+              <Label htmlFor="username">Username</Label>
+              <Input
+                id="username"
+                name="username"
+                placeholder="johndoe123"
+                value={formData.username}
+                onChange={handleChange}
+                required
+              />
             </div>
+            <div className="space-y-2">
+              <Label htmlFor="fullname">Full name</Label>
+              <Input
+                id="fullname"
+                name="fullname"
+                placeholder="John"
+                value={formData.fullname}
+                onChange={handleChange}
+                required
+              />
+            </div>
+
             <div className="space-y-2">
               <Label htmlFor="email">Email</Label>
               <Input
@@ -98,6 +112,18 @@ const Register = () => {
                 type="email"
                 placeholder="name@example.com"
                 value={formData.email}
+                onChange={handleChange}
+                required
+              />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="phone">Phone</Label>
+              <Input
+                id="phone"
+                name="phone"
+                type="tel"
+                placeholder="+1 234 567 890"
+                value={formData.phone}
                 onChange={handleChange}
                 required
               />
@@ -128,22 +154,20 @@ const Register = () => {
               </div>
             </div>
             <div className="space-y-2">
-              <Label htmlFor="accountType">I am a</Label>
-              <Select
-                value={formData.accountType}
-                onValueChange={handleAccountTypeChange}
-              >
+              <Label htmlFor="role">Registering as</Label>
+              <Select value={formData.role} onValueChange={handleRoleChange}>
                 <SelectTrigger>
-                  <SelectValue placeholder="Select account type" />
+                  <SelectValue placeholder="Select a role" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="student">Student</SelectItem>
-                  <SelectItem value="teacher">Teacher</SelectItem>
+                  <SelectItem value="user">User</SelectItem>
+                  <SelectItem value="tutor">Tutor</SelectItem>
+                  {/* <SelectItem value="admin">Admin</SelectItem> */}
                 </SelectContent>
               </Select>
             </div>
             <Button type="submit" className="w-full" disabled={isLoading}>
-              {isLoading ? "Creating account..." : "Create account"}
+              {isLoading ? "Registering..." : "Create account"}
             </Button>
           </form>
         </CardContent>
@@ -153,24 +177,6 @@ const Register = () => {
             <Link to="/login" className="text-primary hover:underline">
               Sign in
             </Link>
-          </div>
-          <div className="relative">
-            <div className="absolute inset-0 flex items-center">
-              <span className="w-full border-t" />
-            </div>
-            <div className="relative flex justify-center text-xs uppercase">
-              <span className="bg-card px-2 text-muted-foreground">
-                Or continue with
-              </span>
-            </div>
-          </div>
-          <div className="grid grid-cols-2 gap-4">
-            <Button variant="outline" type="button" className="w-full">
-              Google
-            </Button>
-            <Button variant="outline" type="button" className="w-full">
-              Apple
-            </Button>
           </div>
         </CardFooter>
       </Card>
