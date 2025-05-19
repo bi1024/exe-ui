@@ -1,0 +1,13 @@
+.calender-container{
+    padding: 20px;
+}
+.btn-event{
+    background-color: rgb(53, 142, 221);
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    color:white;
+}
+.btn-container{
+    margin-bottom: 10px;
+}

@@ -8,7 +8,12 @@ import LessonInfoPage from "./components/LessonInfoPage";
 import PaymentPage from "./components/PaymentPage";
 import PaymentConfirmationPage from "./components/PaymentConfirmationPage";
 import routes from "tempo-routes";
-import CreateSkill from "./pages/teacher/CreateSkill";
+import AddSkillForm from "./pages/teacher/skills/AddSkillForm";
+import SkillsList from "./pages/teacher/skills/SkillsList";
+import EditSkillForm from "./pages/teacher/skills/EditSkillForm";
+import AddSlotForm from "./pages/teacher/schedule/AddSlotForm";
+
+import 'react-big-calendar/lib/css/react-big-calendar.css';
 
 function App() {
   return (
@@ -27,7 +32,23 @@ function App() {
           />
 
           <Route
-            path='/teacher/create-skill' element={<CreateSkill/>}
+            path="/tutor/skills/list"
+            element={<SkillsList/>}
+          />
+
+          <Route
+            path='/tutor/skills/create' 
+            element={<AddSkillForm/>}
+          />
+
+          <Route
+            path="/tutor/skills/edit/:skillId"
+            element={<EditSkillForm/>}
+          />
+
+          <Route
+            path="/tutor/schedule"
+            element={<AddSlotForm/>}
           />
 
         </Routes>

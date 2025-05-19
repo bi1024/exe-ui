@@ -1,4 +1,5 @@
 import apiClient from "@/api/apiClient";
+import Header from "@/components/layouts/Header";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -6,9 +7,9 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuPortal
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { MessageSquare, Plus, Settings } from "lucide-react";
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { MessageSquare, Plus, Save, Settings } from "lucide-react";
+import React, { useEffect, useState } from "react";
+import { Link, useNavigate, useParams } from "react-router-dom";
 
 const skills = [
     { name: "Algebra" },
@@ -28,11 +29,38 @@ const skills = [
     { name: "English Language" }
 ];
 
-export default function CreateSkill() {
+function getCategoriesFormatted(categories: string[]) : string {
+    if(!categories.length) return '';
+    let result : string = categories[0];
+    for(let i = 1; i < categories.length; ++i) {
+        result += `, ${categories[i]}`;
+    }
+    return result;
+}
+
+export default function EditSkillForm() {
+
+    const navigate = useNavigate();
+    const { skillId } = useParams();
 
     const [name, setName] = useState<string>('');
     const [description, setDescription] = useState<string>('');
     const [category, setCategory] = useState<string>('');
+    // const [categories, setCategories] = useState<string[]>([]);
+
+    useEffect(() => {
+        async function fetchSkill(skillId: string) {
+            try {
+                const response = await apiClient.get(`/skills/${skillId}`);
+                setName(response.data.name);
+                setDescription(response.data.description);
+                setCategory(response.data.categories[0].name);
+            } catch(err) {
+                console.log(err);
+            }
+        }
+        fetchSkill(skillId);
+    }, []);
 
     function handleOnChangeName(event: React.ChangeEvent<HTMLInputElement>) {
         setName(event.target.value);
@@ -44,13 +72,14 @@ export default function CreateSkill() {
 
     function handleOnChangeCategory(category: string) {
         setCategory(category);
+        // setCategories([...categories, category]);
     }
 
-    async function handleClickCreateSkill() {
+    async function handleClickSaveChanges() {
         try {
             const categories = [category];
-            const response = await apiClient.post('/skills', { name, description, categories });
-            console.log(response);
+            await apiClient.put(`/skills/${skillId}`, { name, description, categories });
+            navigate('/tutor/skills/list');
         } catch(err) {
             console.log(err);
         }
@@ -58,51 +87,13 @@ export default function CreateSkill() {
 
     return (
         <div className="flex flex-col min-h-screen bg-background">
-            {/* Header */}
-            <header className="sticky top-0 z-10 border-b bg-background/95 backdrop-blur">
-                <div className="container flex h-16 items-center justify-between">
-                    <div className="flex items-center gap-6">
-                    <Link to="/" className="text-xl font-bold">
-                        LessonHub
-                    </Link>
-                    <span className="text-sm font-medium text-muted-foreground">
-                        Teacher Dashboard
-                    </span>
-                    </div>
-                    <div className="flex items-center gap-4">
-                    <Button variant="ghost" size="sm" className="gap-2">
-                        <MessageSquare className="h-4 w-4" />
-                        <span className="hidden md:inline">Messages</span>
-                        <Badge variant="secondary" className="ml-1">
-                        2
-                        </Badge>
-                    </Button>
-                    <Button variant="ghost" size="sm" className="gap-2">
-                        <Settings className="h-4 w-4" />
-                        <span className="hidden md:inline">Settings</span>
-                    </Button>
-                    <div className="flex items-center gap-2">
-                        <Avatar>
-                        <AvatarImage src="https://api.dicebear.com/7.x/avataaars/svg?seed=teacher" />
-                        <AvatarFallback>TC</AvatarFallback>
-                        </Avatar>
-                        <div className="hidden md:block">
-                        <p className="text-sm font-medium">Sarah Johnson</p>
-                        <p className="text-xs text-muted-foreground">
-                            Mathematics Teacher
-                        </p>
-                        </div>
-                    </div>
-                    </div>
-                </div>
-            </header>
-            {/* Header */}
+            <Header/>
 
             {/* Main Content */}
             <div className="flex flex-1 flex-col justify-start items-center bg-gray-50">
                 <div className="w-[40%] p-8 flex flex-col gap-6 justify-center">
-                    <div className="text-2xl font-semibold">Create a new Teaching Skill</div>
-                    <div className="text-sm text-muted-foreground ">Share your expertise and let students book lectures with you. Add your skill below to get started.</div>
+                    <div className="text-2xl font-semibold">Editing a Teaching Skill</div>
+                    <div className="text-sm text-muted-foreground ">Share your expertise and let students book lectures with you. Edit your skill below to get started.</div>
 
                     <div className="flex flex-col bg-white rounded-lg p-6 gap-6">
                         <div className="w-full flex flex-col gap-2">
@@ -146,10 +137,10 @@ export default function CreateSkill() {
 
                         <Button 
                             className="w-[40%] self-center flex flex-row gap-2"
-                            onClick={handleClickCreateSkill}
+                            onClick={handleClickSaveChanges}
                         >
-                            <Plus size={16}/>
-                            Create Skill
+                            <Save size={16}/>
+                            Save changes
                         </Button>
                     </div>
 
