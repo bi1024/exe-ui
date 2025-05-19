@@ -1,6 +1,6 @@
 import { Calendar as BigCalendar, momentLocalizer } from "react-big-calendar";
 import moment from 'moment';
-import { ISlot } from "@/pages/teacher/schedule/AddSlotForm";
+import { ISlot } from "@/pages/tutor/schedule/EditSlotsForm";
 
 const localizer = momentLocalizer(moment);
 

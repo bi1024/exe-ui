@@ -1,8 +1,6 @@
 import Calendar from "@/components/schedule/Calendar";
 import Sidebar from "@/components/schedule/Sidebar";
 import { useEffect, useState } from "react";
-
-import './AddSlotForm.css'
 import apiClient from "@/api/apiClient";
 import { ISkill } from "../skills/SkillsList";
 
@@ -104,9 +102,9 @@ export default function AddSlotForm() {
     }
 
     return (
-        <div className='calender-container'>
-            <div className='btn-container'>
-                <button className="btn-event" onClick={() => { setSelectedSlot(null); toggleOffCanvas(); }}>
+        <div className='p-5'>
+            <div className='mb-3'>
+                <button className='bg-[#358EDD] border-0 p-2.5 cursor-pointer text-white' onClick={() => { setSelectedSlot(null); toggleOffCanvas(); }}>
                 Add Slot
                 </button>
             </div>

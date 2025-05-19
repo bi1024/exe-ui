@@ -1,12 +1,10 @@
-import { ISlot, ISlotAdded, ISlotUpdated } from "@/pages/teacher/schedule/AddSlotForm"
+import { ISlot, ISlotAdded, ISlotUpdated } from "@/pages/tutor/schedule/EditSlotsForm"
 import moment from "moment"
 import { useEffect, useState } from "react"
-
-// import './Sidebar.css';
 import { Label } from "../ui/label";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuPortal, DropdownMenuTrigger } from "../ui/dropdown-menu";
 import { Input } from "../ui/input";
-import { ISkill } from "@/pages/teacher/skills/SkillsList";
+import { ISkill } from "@/pages/tutor/skills/SkillsList";
 import { X } from "lucide-react";
 
 interface Props {
