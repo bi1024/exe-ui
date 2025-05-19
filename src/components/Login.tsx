@@ -45,8 +45,10 @@ const Login = () => {
     setIsLoading(true);
     try {
       const response = await apiClient.post("/auth/login", { email, password });
-
       dispatch(setCredentials(response.data));
+
+      localStorage.setItem("accessToken", response.data.token);
+      localStorage.setItem("user", JSON.stringify(response.data.user));
       setIsLoading(false);
       navigate("/");
 
