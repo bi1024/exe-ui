@@ -49,8 +49,13 @@ const Login = () => {
 
       localStorage.setItem("accessToken", response.data.token);
       localStorage.setItem("user", JSON.stringify(response.data.user));
+
       setIsLoading(false);
-      navigate("/");
+      if (response.data.user.role === "tutor") {
+        navigate("/tutor/dashboard");
+      } else {
+        navigate("/");
+      }
 
       // Redirect or perform additional actions
     } catch (error) {

@@ -119,7 +119,7 @@ const HomePage = () => {
             </Link> */}
             {user ? (
               <>
-                user.email
+                {user.email}
                 <Button variant="ghost" size="sm" onClick={handleLogout}>
                   Log out
                 </Button>
@@ -237,7 +237,7 @@ const HomePage = () => {
       {/* Main Content */}
       <main className="container px-4 md:px-6 py-8">
         <Tabs defaultValue="featured" className="w-full">
-          <div className="flex items-center justify-between mb-6">
+          {/* <div className="flex items-center justify-between mb-6">
             <TabsList>
               <TabsTrigger value="featured">Featured Teachers</TabsTrigger>
               <TabsTrigger value="all">All Teachers</TabsTrigger>
@@ -246,7 +246,7 @@ const HomePage = () => {
             <Link to="/teachers">
               <Button variant="link">View All</Button>
             </Link>
-          </div>
+          </div> */}
 
           <TabsContent value="featured" className="space-y-8">
             {/* Featured Teachers Grid */}
