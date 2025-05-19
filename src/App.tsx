@@ -11,11 +11,12 @@ import routes from "tempo-routes";
 import AddSkillForm from "./pages/tutor/skills/AddSkillForm";
 import SkillsList from "./pages/tutor/skills/SkillsList";
 import EditSkillForm from "./pages/tutor/skills/EditSkillForm";
-import AddSlotForm from "./pages/tutor/schedule/EditSlotsForm";
+import EditSlotsForm from "./pages/tutor/schedule/EditSlotsForm";
 
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import { useDispatch } from "react-redux";
 import { setCredentials } from "./store/slices/authSlice";
+import BookingForm from "./pages/student/booking/BookingForm";
 
 function App() {
   const dispatch = useDispatch();
@@ -60,7 +61,12 @@ function App() {
 
           <Route
             path="/tutor/schedule"
-            element={<AddSlotForm/>}
+            element={<EditSlotsForm/>}
+          />
+
+          <Route
+            path="/student/booking"
+            element={<BookingForm/>}
           />
 
         </Routes>

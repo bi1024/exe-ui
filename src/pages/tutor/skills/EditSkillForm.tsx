@@ -51,7 +51,7 @@ export default function EditSkillForm() {
     useEffect(() => {
         async function fetchSkill(skillId: string) {
             try {
-                const response = await apiClient.get(`/skills/${skillId}`);
+                const response = await apiClient.get(`/tutor/skills/${skillId}`);
                 setName(response.data.name);
                 setDescription(response.data.description);
                 setCategory(response.data.categories[0].name);
@@ -78,7 +78,7 @@ export default function EditSkillForm() {
     async function handleClickSaveChanges() {
         try {
             const categories = [category];
-            await apiClient.put(`/skills/${skillId}`, { name, description, categories });
+            await apiClient.put(`/tutor/skills/${skillId}`, { name, description, categories });
             navigate('/tutor/skills/list');
         } catch(err) {
             console.log(err);

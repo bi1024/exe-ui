@@ -1,5 +1,5 @@
-import Calendar from "@/components/schedule/Calendar";
-import Sidebar from "@/components/schedule/Sidebar";
+import Calendar from "@/components/calendar/Calendar";
+import Sidebar from "@/pages/tutor/schedule/components/Sidebar";
 import { useEffect, useState } from "react";
 import apiClient from "@/api/apiClient";
 import { ISkill } from "../skills/SkillsList";
@@ -18,7 +18,7 @@ export type ISlotUpdated = Pick<ISlot, '_id' | 'startTime' | 'endTime' | 'skill'
 export type ISlotReturned = Pick<ISlot, '_id' | 'startTime' | 'endTime' | 'isBooked'> & { skill : { _id: string, name: string } };
 
 
-export default function AddSlotForm() {
+export default function EditSlotsForm() {
     const [showOffCanvas, setShowOffCanvas] = useState(false);
     const [slots, setSlots] = useState<ISlot[]>([]);
     const [selectedSlot, setSelectedSlot] = useState<ISlot>(null);
@@ -28,7 +28,7 @@ export default function AddSlotForm() {
     useEffect(() => {
         async function fetchSkills() {
             try {
-                const response = await apiClient.get('/skills');
+                const response = await apiClient.get('/tutor/skills');
                 // console.log(response.data);
                 setSkills(response.data);
             } catch(err) {
@@ -38,7 +38,7 @@ export default function AddSlotForm() {
 
         async function fetchSlots() {
             try {
-                const response = await apiClient.get('/tutor-schedules');
+                const response = await apiClient.get('/tutor/schedules');
                 const slots = response.data as ISlotReturned[];
                 const slotsFormatted = slots.map(slot => ({...slot, skill: slot.skill.name}));
                 setSlots(slotsFormatted);
@@ -58,7 +58,7 @@ export default function AddSlotForm() {
     async function handleAddSlot(slotAdded: ISlotAdded) {
         // handle backend response
         try {
-            const response = await apiClient.post('/tutor-schedules', slotAdded);
+            const response = await apiClient.post('/tutor/schedules', slotAdded);
             const slot = response.data as ISlotReturned;
             const slotFormatted = {...slot, skill: slot.skill.name};
             setSlots([...slots, slotFormatted]);
@@ -72,7 +72,7 @@ export default function AddSlotForm() {
     async function handleEditSlot(slotId: string, slotUpdated: ISlotUpdated) {
         // handle backend response
         try {
-            const response = await apiClient.put(`/tutor-schedules/${slotId}`, slotUpdated);
+            const response = await apiClient.put(`/tutor/schedules/${slotId}`, slotUpdated);
             const slot = response.data as ISlotReturned;
             const slotFormatted = {...slot, skill: slot.skill.name};
             setSlots(slots.map(slot => (slot._id === slotFormatted._id ? slotFormatted : slot)));
@@ -84,7 +84,7 @@ export default function AddSlotForm() {
 
     async function handleDeleteSlot(id: string) {
         try {
-            await apiClient.delete(`/tutor-schedules/${id}`);
+            await apiClient.delete(`/tutor/schedules/${id}`);
             setSlots(slots.filter(slot => slot._id !== id));
         } catch(err) {
             console.log(err);

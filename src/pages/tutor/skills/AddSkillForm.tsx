@@ -62,7 +62,7 @@ export default function AddSkillForm() {
     async function handleClickCreateSkill() {
         try {
             const categories = [category];
-            await apiClient.post('/skills', { name, description, categories });
+            await apiClient.post('/tutor/skills', { name, description, categories });
             navigate('/tutor/skills/list');
         } catch(err) {
             console.log(err);

@@ -1,9 +1,9 @@
 import { ISlot, ISlotAdded, ISlotUpdated } from "@/pages/tutor/schedule/EditSlotsForm"
 import moment from "moment"
 import { useEffect, useState } from "react"
-import { Label } from "../ui/label";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuPortal, DropdownMenuTrigger } from "../ui/dropdown-menu";
-import { Input } from "../ui/input";
+import { Label } from "../../../../components/ui/label";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuPortal, DropdownMenuTrigger } from "../../../../components/ui/dropdown-menu";
+import { Input } from "../../../../components/ui/input";
 import { ISkill } from "@/pages/tutor/skills/SkillsList";
 import { X } from "lucide-react";
 
@@ -81,19 +81,17 @@ export default function Sidebar({ show, onHide, onAddSlot, onEditSlot, onDeleteS
         }
     }
 
-    // console.log(skills);
     return (
-            <div className=
-                {`fixed top-0 ${show ? 'left-0' : 'left-[-250px]'} w-[250px] h-screen bg-gray-100 transition-[left] duration-300 ease-in-out z-[1000]`}
-            >
+        <div className=
+            {`fixed top-0 ${show ? 'left-0' : 'left-[-250px]'} w-[250px] h-screen bg-gray-100 transition-[left] duration-300 ease-in-out z-[1000]`}
+        >
             <div className="h-full p-5">
                 <div className="flex justify-between items-center mb-5">
-                <div className="text-2xl font-bold">{selectedSlot ? 'Edit Slot' : 'Add Slot'}</div>
-                <button className="bg-red-500 border-none cursor-pointer text-white rounded-[50%]" onClick={onHide}><X/></button>
+                    <div className="text-2xl font-bold">{selectedSlot ? 'Edit Slot' : 'Add Slot'}</div>
+                    <button className="bg-red-500 border-none cursor-pointer text-white rounded-[50%]" onClick={onHide}><X/></button>
                 </div>
-                <div className="overflow-y-auto h-[calc(100%-60px)]">
-                    
-                    <Label className="block mb-[5px] text-base font-medium">Skill</Label>
+                <div className="flex flex-col gap-3 overflow-y-auto h-[calc(100%-60px)]">
+                    <Label className="text-lg font-medium">Skill</Label>
                     <DropdownMenu>
                         <DropdownMenuTrigger asChild>
                             <Input className="w-[90%] p-2 border border-gray-300 rounded text-sm text-left" value={skill}/>
@@ -110,29 +108,34 @@ export default function Sidebar({ show, onHide, onAddSlot, onEditSlot, onDeleteS
                         </DropdownMenuPortal>
                     </DropdownMenu>
 
-                    <label className="block mb-[5px]">Date</label>
+                    <Label className="text-base font-normal">Date</Label>
                     <input
                         className="w-[90%] p-2 border border-gray-300 rounded text-sm"
                         type="date"
                         value={date ? moment(date).format('YYYY-MM-DD') : ''}
                         onChange={handleDateChange}
                     />
-                    <label className="block mb-[5px]">Start Time</label>
+
+                    <Label className="text-base font-normal">Start Time</Label>
                     <input
                         className="w-[90%] p-2 border border-gray-300 rounded text-sm"
                         type="time"
                         value={startTime}
                         onChange={(e) => setStartTime(e.target.value)}
                     />
-                    <label className="block mb-[5px]">End Time</label>
+
+                    <Label className="text-base font-normal">End Time</Label>
                     <input
                         className="w-[90%] p-2 border border-gray-300 rounded text-sm"
                         type="time"
                         value={endTime}
                         onChange={(e) => setEndTime(e.target.value)}
                     />
-                    <button className="mt-[15px] btn bg-green-500 border-none p-2.5 cursor-pointer text-white" onClick={handleSubmit}>{selectedSlot ? 'Update' : 'Submit'}</button>
-                    {selectedSlot && <button className="mt-[15px] btn bg-red-500 border-none p-2.5 cursor-pointer text-white ml-2.5" onClick={handleDelete}>Delete</button>}
+                    
+                    <div className="w-[90%] grid grid-cols-2 gap-2">
+                        <button className="grid-cols-1 btn bg-green-500 border-none p-2.5 cursor-pointer text-white" onClick={handleSubmit}>{selectedSlot ? 'Update' : 'Submit'}</button>
+                        {selectedSlot && <button className="grid-cols-1 btn bg-red-500 border-none p-2.5 cursor-pointer text-white" onClick={handleDelete}>Delete</button>}
+                    </div>
                 </div>
             </div>
         </div>

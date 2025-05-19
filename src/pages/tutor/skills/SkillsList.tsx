@@ -3,7 +3,6 @@ import Header from "@/components/layouts/Header";
 import { Button } from "@/components/ui/button";
 import { Book, CirclePlus, Edit, Plus, SquarePen, Trash, Trash2 } from "lucide-react";
 import { useEffect, useState } from "react"
-import SkillsPage from "./Test";
 import { useNavigate } from "react-router-dom";
 
 export interface ISkillCategory {
@@ -26,7 +25,7 @@ export default function SkillsList() {
     useEffect(() => {
         async function fetchSkills() {
             try {
-                const response = await apiClient.get('/skills');
+                const response = await apiClient.get('/tutor/skills');
                 setSkills(response.data);
             } catch(err) {
                 console.log(err);
@@ -46,7 +45,7 @@ export default function SkillsList() {
 
     async function handleClickDeleteSkill(skillId: string) {
         try {
-            await apiClient.delete(`/skills/${skillId}`);
+            await apiClient.delete(`/tutor/skills/${skillId}`);
             const skillsFiltered = skills.filter(skill => skill._id !== skillId);
             setSkills(skillsFiltered);
         } catch(err) {
