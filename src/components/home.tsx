@@ -31,13 +31,15 @@ import {
   Video,
 } from "lucide-react";
 import TeacherGrid from "./TeacherGrid";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/store";
+import { logout } from "@/store/slices/authSlice";
+import apiClient from "@/api/apiClient";
 
 const HomePage = () => {
   const user = useSelector((state: RootState) => state.auth.user);
   const token = useSelector((state: RootState) => state.auth.token);
-  console.log(user, token);
+  const dispatch = useDispatch();
 
   // Mock data for featured teachers
   const featuredTeachers = [
@@ -69,6 +71,16 @@ const HomePage = () => {
       availableSlots: 7,
     },
   ];
+
+  const handleLogout = () => {
+    localStorage.removeItem("accessToken");
+    dispatch(logout());
+  };
+
+  const handlePost = async () => {
+    const result = await apiClient.post("/auth/test");
+    console.log(result);
+  };
 
   return (
     <div className="min-h-screen bg-background">
@@ -108,7 +120,7 @@ const HomePage = () => {
             {user ? (
               <>
                 user.email
-                <Button variant="ghost" size="sm">
+                <Button variant="ghost" size="sm" onClick={handleLogout}>
                   Log out
                 </Button>
               </>
@@ -130,6 +142,7 @@ const HomePage = () => {
 
       {/* Hero Section */}
       <section className="py-12 md:py-24 lg:py-32 bg-gradient-to-b from-background to-muted/30">
+        <button onClick={handlePost}>TEST API AUTH</button>
         <div className="container px-4 md:px-6">
           <div className="grid gap-6 lg:grid-cols-2 lg:gap-12 items-center">
             <div className="flex flex-col justify-center space-y-4">

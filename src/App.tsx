@@ -1,4 +1,4 @@
-import { Suspense } from "react";
+import { Suspense, useEffect } from "react";
 import { useRoutes, Routes, Route } from "react-router-dom";
 import Home from "./components/home";
 import Login from "./components/Login";
@@ -14,8 +14,20 @@ import EditSkillForm from "./pages/teacher/skills/EditSkillForm";
 import AddSlotForm from "./pages/teacher/schedule/AddSlotForm";
 
 import 'react-big-calendar/lib/css/react-big-calendar.css';
+import { useDispatch } from "react-redux";
+import { setCredentials } from "./store/slices/authSlice";
 
 function App() {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    const token = localStorage.getItem("accessToken");
+    const user = JSON.parse(localStorage.getItem("user"));
+    if (token && user) {
+      const data = { token, user };
+      console.log(data);
+      dispatch(setCredentials(data));
+    }
+  }, []);
   return (
     <Suspense fallback={<p>Loading...</p>}>
       <>
