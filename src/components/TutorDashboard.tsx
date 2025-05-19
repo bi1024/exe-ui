@@ -23,7 +23,7 @@ import {
   Star,
 } from "lucide-react";
 
-const TeacherDashboard = () => {
+const TutorDashboard = () => {
   const [date, setDate] = useState<Date | undefined>(new Date());
 
   // Mock data
@@ -338,4 +338,4 @@ const TeacherDashboard = () => {
   );
 };
 
-export default TeacherDashboard;
+export default TutorDashboard;
