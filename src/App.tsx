@@ -17,6 +17,7 @@ import "react-big-calendar/lib/css/react-big-calendar.css";
 import { useDispatch } from "react-redux";
 import { setCredentials } from "./store/slices/authSlice";
 import BookingForm from "./pages/student/booking/BookingForm";
+import PaymentFailedPage from "./components/PaymentFailedPage";
 
 function App() {
   const dispatch = useDispatch();
@@ -45,9 +46,10 @@ function App() {
           <Route path="/lesson/:lessonId" element={<LessonInfoPage />} />
           <Route path="/payment/:lessonId" element={<PaymentPage />} />
           <Route
-            path="/payment-confirmation/:lessonId"
+            path="/payment-confirmation"
             element={<PaymentConfirmationPage />}
           />
+          <Route path="/payment-failed" element={<PaymentFailedPage />} />
 
           <Route path="/tutor/skills/list" element={<SkillsList />} />
 
