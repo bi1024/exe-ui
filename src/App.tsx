@@ -30,8 +30,8 @@ function App() {
       console.log(data);
       dispatch(setCredentials(data));
     }
-    if (user.role === "tutor") {
-      navigate("/tutor/dashboard");
+    if (user?.role === "tutor") {
+      // navigate("/tutor/dashboard");//todo:check othe methods
     }
   }, []);
   return (
@@ -60,7 +60,7 @@ function App() {
 
           <Route path="/tutor/schedule" element={<EditSlotsForm />} />
 
-          <Route path="/student/booking" element={<BookingForm />} />
+          <Route path="/student/booking/:tutorId" element={<BookingForm />} />
         </Routes>
         {import.meta.env.VITE_TEMPO === "true" && useRoutes(routes)}
       </>
