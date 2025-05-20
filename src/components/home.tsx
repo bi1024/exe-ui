@@ -1,5 +1,5 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 import {
@@ -39,7 +39,9 @@ import apiClient from "@/api/apiClient";
 const HomePage = () => {
   const user = useSelector((state: RootState) => state.auth.user);
   const token = useSelector((state: RootState) => state.auth.token);
+  const [tutors, setTutors] = useState([]);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   // Mock data for featured teachers
   const featuredTeachers = [
@@ -71,6 +73,20 @@ const HomePage = () => {
       availableSlots: 7,
     },
   ];
+
+  useEffect(() => {
+    async function fetchTutors() {
+      try {
+        const response = await apiClient.get("/tutor");
+
+        setTutors(response.data.data);
+      } catch (err) {
+        console.log(err);
+      }
+    }
+
+    fetchTutors();
+  }, []);
 
   const handleLogout = () => {
     localStorage.removeItem("accessToken");
@@ -251,54 +267,58 @@ const HomePage = () => {
           <TabsContent value="featured" className="space-y-8">
             {/* Featured Teachers Grid */}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-              {featuredTeachers.map((teacher) => (
+              {tutors.map((tutor) => (
                 <Card
-                  key={teacher.id}
+                  key={tutor._id}
                   className="overflow-hidden hover:shadow-lg transition-shadow"
                 >
                   <CardHeader className="p-0">
                     <div className="relative h-48 bg-muted">
                       <div className="absolute inset-0 flex items-center justify-center">
                         <Avatar className="h-32 w-32 border-4 border-background">
-                          <AvatarImage src={teacher.image} alt={teacher.name} />
-                          <AvatarFallback>
-                            {teacher.name
-                              .split(" ")
-                              .map((n) => n[0])
-                              .join("")}
-                          </AvatarFallback>
+                          <AvatarImage
+                            src={tutor?.image}
+                            alt={tutor.username}
+                          />
+                          <AvatarFallback>{tutor.fullname}</AvatarFallback>
                         </Avatar>
                       </div>
                     </div>
                   </CardHeader>
                   <CardContent className="pt-4 text-center">
-                    <CardTitle>{teacher.name}</CardTitle>
-                    <CardDescription>{teacher.subject}</CardDescription>
-                    <div className="flex items-center justify-center mt-2 gap-1">
+                    <CardTitle>{tutor.fullname}</CardTitle>
+                    {/* <CardDescription>{teacher.subject}</CardDescription> */}
+                    {/* <div className="flex items-center justify-center mt-2 gap-1">
                       <Star className="h-4 w-4 fill-primary text-primary" />
                       <span className="font-medium">{teacher.rating}</span>
-                    </div>
+                    </div> */}
                     <div className="mt-2 flex items-center justify-center gap-2">
-                      <Badge
+                      {/* <Badge
                         variant="outline"
                         className="flex gap-1 items-center"
                       >
                         <Clock className="h-3 w-3" />
                         {teacher.availableSlots} slots
-                      </Badge>
-                      <Badge variant="secondary">${teacher.price}/hr</Badge>
+                      </Badge> */}
+                      {/* <Badge variant="secondary">${teacher.price}/hr</Badge> */}
                     </div>
                   </CardContent>
                   <CardFooter className="flex justify-between">
-                    <Button
+                    {/* <Button
                       variant="outline"
                       size="sm"
                       className="w-full gap-2"
                     >
                       <MessageSquare className="h-4 w-4" />
                       Message
-                    </Button>
-                    <Button size="sm" className="w-full gap-2">
+                    </Button> */}
+                    <Button
+                      size="sm"
+                      className="w-full gap-2"
+                      onClick={() => {
+                        navigate(`/student/booking/${tutor._id}`);
+                      }}
+                    >
                       <Calendar className="h-4 w-4" />
                       Book
                     </Button>
