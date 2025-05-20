@@ -5,6 +5,7 @@ import { Label } from "../../../../components/ui/label";
 import { Input } from "../../../../components/ui/input";
 import { ISkill } from "@/pages/tutor/skills/SkillsList";
 import { X } from "lucide-react";
+import apiClient from "@/api/apiClient";
 
 interface Props {
   show: boolean;
@@ -39,7 +40,12 @@ export default function Sidebar({ show, onHide, selectedSlot }: Props) {
   }, [selectedSlot]);
 
   const handleBooking = async (slotId) => {
-    console.log(slotId);
+    // console.log(slotId);
+    const result = await apiClient.post("/payment/create-payment", {
+      slotId: slotId,
+    });
+    console.log(result);
+    window.location.href = result.data;
   };
 
   return (
