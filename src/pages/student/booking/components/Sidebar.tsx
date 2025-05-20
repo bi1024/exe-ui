@@ -39,10 +39,10 @@ export default function Sidebar({ show, onHide, selectedSlot }: Props) {
     }
   }, [selectedSlot]);
 
-  const handleBooking = async (slotId) => {
+  const handleBooking = async (selectedSlot) => {
     // console.log(slotId);
     const result = await apiClient.post("/payment/create-payment", {
-      slotId: slotId,
+      scheduleId: selectedSlot,
     });
     console.log(result);
     window.location.href = result.data;
@@ -97,7 +97,7 @@ export default function Sidebar({ show, onHide, selectedSlot }: Props) {
               <button
                 className="grid-cols-1 btn bg-green-500 border-none p-2.5 cursor-pointer text-white"
                 onClick={() => {
-                  handleBooking(selectedSlot._id);
+                  handleBooking(selectedSlot);
                 }}
               >
                 Book
