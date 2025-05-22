@@ -24,8 +24,8 @@ import {
 } from "lucide-react";
 
 const TutorDashboard = () => {
-  const navigate = useNavigate();
   const [date, setDate] = useState<Date | undefined>(new Date());
+  const navigate = useNavigate();
 
   // Mock data
   const upcomingLessons = [
@@ -151,6 +151,14 @@ const TutorDashboard = () => {
 
       {/* Main Content */}
       <main className="container px-4 md:px-6 py-8">
+        <Button
+          variant="outline"
+          onClick={() => {
+            navigate("/tutor/schedule");
+          }}
+        >
+          Add schedule
+        </Button>
 
         <div className="mb-4 flex flex-row gap-4">
           <Button className="flex flex-row gap-2" onClick={handleClickListSkills}>
