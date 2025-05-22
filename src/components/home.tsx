@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
@@ -35,6 +35,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/store";
 import { logout } from "@/store/slices/authSlice";
 import apiClient from "@/api/apiClient";
+import { RoomContext } from "@/context/RoomContext";
+import Create from "@/pages/common/room/components/CreateButton";
 
 const HomePage = () => {
   const user = useSelector((state: RootState) => state.auth.user);
@@ -43,6 +45,11 @@ const HomePage = () => {
   const [schedules, setSchedules] = useState([]);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+    const { ws } = useContext(RoomContext);
+    function createRoom() {
+      ws.emit('create-room');
+    }
 
   // Mock data for featured teachers
   const featuredTeachers = [
@@ -171,7 +178,10 @@ const HomePage = () => {
       <section className="py-12 md:py-24 lg:py-32 bg-gradient-to-b from-background to-muted/30">
         <button onClick={handlePost}>TEST API AUTH</button>
         {schedules?.map((schedule) => (
-          <Button>JOIN </Button>
+          // <Button>JOIN </Button>
+          <div onClick={createRoom}>
+            <Create/>
+          </div>
         ))}
         <div className="container px-4 md:px-6">
           <div className="grid gap-6 lg:grid-cols-2 lg:gap-12 items-center">

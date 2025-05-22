@@ -1,9 +1,9 @@
 import { Button } from "@/components/ui/button";
 
-export default function Join() {
+export default function Create() {
     return (
         <Button>
-            Start new meeting
+            JOIN
         </Button>
     )
 }
