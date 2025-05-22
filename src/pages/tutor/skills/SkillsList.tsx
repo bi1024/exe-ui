@@ -35,11 +35,11 @@ export default function SkillsList() {
     }, []);
 
 
-    async function handleClickCreateSkill() {
+    function handleClickCreateSkill() {
         navigate('/tutor/skills/create');
     }
 
-    async function handleClickEditSkill(skillId: string) {
+    function handleClickEditSkill(skillId: string) {
         navigate(`/tutor/skills/edit/${skillId}`);
     }
 

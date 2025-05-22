@@ -18,6 +18,9 @@ import { useDispatch } from "react-redux";
 import { setCredentials } from "./store/slices/authSlice";
 import BookingForm from "./pages/student/booking/BookingForm";
 import PaymentFailedPage from "./components/PaymentFailedPage";
+import StartMeetingPage from "./pages/common/room/StartMeetingPage";
+import Room from "./pages/common/room/Room";
+import { RoomProvider } from "./context/RoomContext";
 
 function App() {
   const dispatch = useDispatch();
@@ -63,7 +66,12 @@ function App() {
           <Route path="/tutor/schedule" element={<EditSlotsForm />} />
 
           <Route path="/student/booking/:tutorId" element={<BookingForm />} />
+
+          <Route path="/start-meeting" element={<StartMeetingPage/>}/>
+          <Route path="/room/:id" element={<Room/>}/>
+
         </Routes>
+
         {import.meta.env.VITE_TEMPO === "true" && useRoutes(routes)}
       </>
     </Suspense>

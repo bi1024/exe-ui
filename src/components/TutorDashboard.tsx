@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Button } from "./ui/button";
 import {
   Card,
@@ -24,6 +24,7 @@ import {
 } from "lucide-react";
 
 const TutorDashboard = () => {
+  const navigate = useNavigate();
   const [date, setDate] = useState<Date | undefined>(new Date());
 
   // Mock data
@@ -99,6 +100,14 @@ const TutorDashboard = () => {
     },
   ];
 
+  function handleClickListSkills() {
+    navigate('/tutor/skills/list');
+  }
+
+  function handleClickEditSchedule() {
+    navigate('/tutor/schedule');
+  }
+
   return (
     <div className="min-h-screen bg-background">
       {/* Header */}
@@ -142,6 +151,16 @@ const TutorDashboard = () => {
 
       {/* Main Content */}
       <main className="container px-4 md:px-6 py-8">
+
+        <div className="mb-4 flex flex-row gap-4">
+          <Button className="flex flex-row gap-2" onClick={handleClickListSkills}>
+            Show my skills
+          </Button>
+          <Button onClick={handleClickEditSchedule}>
+            Edit my schedule
+          </Button>
+        </div>
+
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
           {stats.map((stat, index) => (
             <Card key={index}>

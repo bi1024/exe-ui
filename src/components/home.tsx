@@ -158,7 +158,7 @@ const HomePage = () => {
 
       {/* Hero Section */}
       <section className="py-12 md:py-24 lg:py-32 bg-gradient-to-b from-background to-muted/30">
-        <button onClick={handlePost}>TEST API AUTH</button>
+        {/* <button onClick={handlePost}>TEST API AUTH</button> */}
         <div className="container px-4 md:px-6">
           <div className="grid gap-6 lg:grid-cols-2 lg:gap-12 items-center">
             <div className="flex flex-col justify-center space-y-4">
