@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Button } from "./ui/button";
 import {
   Card,
@@ -25,6 +25,7 @@ import {
 
 const TutorDashboard = () => {
   const [date, setDate] = useState<Date | undefined>(new Date());
+  const navigate = useNavigate();
 
   // Mock data
   const upcomingLessons = [
@@ -142,6 +143,14 @@ const TutorDashboard = () => {
 
       {/* Main Content */}
       <main className="container px-4 md:px-6 py-8">
+        <Button
+          variant="outline"
+          onClick={() => {
+            navigate("/tutor/schedule");
+          }}
+        >
+          Add schedule
+        </Button>
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
           {stats.map((stat, index) => (
             <Card key={index}>

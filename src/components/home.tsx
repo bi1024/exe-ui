@@ -40,6 +40,7 @@ const HomePage = () => {
   const user = useSelector((state: RootState) => state.auth.user);
   const token = useSelector((state: RootState) => state.auth.token);
   const [tutors, setTutors] = useState([]);
+  const [schedules, setSchedules] = useState([]);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -78,14 +79,23 @@ const HomePage = () => {
     async function fetchTutors() {
       try {
         const response = await apiClient.get("/tutor");
-
         setTutors(response.data.data);
+      } catch (err) {
+        console.log(err);
+      }
+    }
+    async function fetchSchedules() {
+      try {
+        const response = await apiClient.get("/tutor/schedules/schedule-today");
+        console.log(response.data.data);
+        setSchedules(response.data);
       } catch (err) {
         console.log(err);
       }
     }
 
     fetchTutors();
+    fetchSchedules();
   }, []);
 
   const handleLogout = () => {
@@ -94,7 +104,8 @@ const HomePage = () => {
   };
 
   const handlePost = async () => {
-    const result = await apiClient.post("/auth/test");
+    // const result = await apiClient.post("/tutor/schedules/schedule-today");
+    const result = await apiClient.get("/tutor/schedules/schedule-today");
     console.log(result);
   };
 
@@ -159,6 +170,9 @@ const HomePage = () => {
       {/* Hero Section */}
       <section className="py-12 md:py-24 lg:py-32 bg-gradient-to-b from-background to-muted/30">
         <button onClick={handlePost}>TEST API AUTH</button>
+        {schedules?.map((schedule) => (
+          <Button>JOIN </Button>
+        ))}
         <div className="container px-4 md:px-6">
           <div className="grid gap-6 lg:grid-cols-2 lg:gap-12 items-center">
             <div className="flex flex-col justify-center space-y-4">

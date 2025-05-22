@@ -3,6 +3,8 @@ import Sidebar from "@/pages/tutor/schedule/components/Sidebar";
 import { useEffect, useState } from "react";
 import apiClient from "@/api/apiClient";
 import { ISkill } from "../skills/SkillsList";
+import { useNavigate } from "react-router";
+import { Button } from "@/components/ui/button";
 
 export interface ISlot {
   _id: string;
@@ -24,6 +26,7 @@ export type ISlotReturned = Pick<
 > & { skill: { _id: string; name: string } };
 
 export default function EditSlotsForm() {
+  const navigate = useNavigate();
   const [showOffCanvas, setShowOffCanvas] = useState(false);
   const [slots, setSlots] = useState<ISlot[]>([]);
   const [selectedSlot, setSelectedSlot] = useState<ISlot>(null);
@@ -120,15 +123,23 @@ export default function EditSlotsForm() {
   return (
     <div className="p-5">
       <div className="mb-3">
-        <button
-          className="bg-[#358EDD] border-0 p-2.5 cursor-pointer text-white"
+        <Button
+          className="bg-[#358EDD] border-0 p-2.5 cursor-pointer text-white mx-2"
           onClick={() => {
             setSelectedSlot(null);
             toggleOffCanvas();
           }}
         >
           Add Slot
-        </button>
+        </Button>
+        <Button
+          className="bg-[#358EDD] border-0 p-2.5 cursor-pointer text-white mx-2"
+          onClick={() => {
+            navigate("/tutor/dashboard");
+          }}
+        >
+          Back
+        </Button>
       </div>
       <Sidebar
         show={showOffCanvas}
