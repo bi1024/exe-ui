@@ -21,6 +21,7 @@ import PaymentFailedPage from "./components/PaymentFailedPage";
 import StartMeetingPage from "./pages/common/room/StartMeetingPage";
 import Room from "./pages/common/room/Room";
 import { RoomProvider } from "./context/RoomContext";
+import Dashboard from "./components/Dashboard";
 
 function App() {
   const dispatch = useDispatch();
@@ -45,6 +46,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
+          <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/tutor/dashboard" element={<TutorDashboard />} />
           <Route path="/lesson/:lessonId" element={<LessonInfoPage />} />
           <Route path="/payment/:lessonId" element={<PaymentPage />} />
@@ -67,9 +69,8 @@ function App() {
 
           <Route path="/student/booking/:tutorId" element={<BookingForm />} />
 
-          <Route path="/start-meeting" element={<StartMeetingPage/>}/>
-          <Route path="/room/:id" element={<Room/>}/>
-
+          <Route path="/start-meeting" element={<StartMeetingPage />} />
+          <Route path="/room/:id" element={<Room />} />
         </Routes>
 
         {import.meta.env.VITE_TEMPO === "true" && useRoutes(routes)}

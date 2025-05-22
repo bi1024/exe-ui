@@ -37,6 +37,7 @@ import { logout } from "@/store/slices/authSlice";
 import apiClient from "@/api/apiClient";
 import { RoomContext } from "@/context/RoomContext";
 import Create from "@/pages/common/room/components/CreateButton";
+import ScheduleItemCard from "@/pages/tutor/schedule/components/ScheduleItemCard";
 
 const HomePage = () => {
   const user = useSelector((state: RootState) => state.auth.user);
@@ -46,10 +47,10 @@ const HomePage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-    const { ws } = useContext(RoomContext);
-    function createRoom() {
-      ws.emit('create-room');
-    }
+  const { ws } = useContext(RoomContext);
+  function createRoom() {
+    ws.emit("create-room");
+  }
 
   // Mock data for featured teachers
   const featuredTeachers = [
@@ -94,7 +95,7 @@ const HomePage = () => {
     async function fetchSchedules() {
       try {
         const response = await apiClient.get("/tutor/schedules/schedule-today");
-        console.log(response.data.data);
+        console.log(response.data);
         setSchedules(response.data);
       } catch (err) {
         console.log(err);
@@ -179,9 +180,10 @@ const HomePage = () => {
         <button onClick={handlePost}>TEST API AUTH</button>
         {schedules?.map((schedule) => (
           // <Button>JOIN </Button>
-          <div onClick={createRoom}>
-            <Create/>
-          </div>
+          // <div onClick={createRoom}>
+          //   <Create />
+          // </div>
+          <ScheduleItemCard lesson={schedule} />
         ))}
         <div className="container px-4 md:px-6">
           <div className="grid gap-6 lg:grid-cols-2 lg:gap-12 items-center">
