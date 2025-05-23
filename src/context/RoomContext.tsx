@@ -17,6 +17,9 @@ interface IContext {
     stream: MediaStream
     peers: PeerState
     myCall: MediaConnection
+    handleClickEndMeeting: () => void
+    handleToogleAudio: () => void
+    handleToogleVideo: () => void
 }
 
 function getCurrentTime() {
@@ -54,6 +57,28 @@ export function RoomProvider({ children }) {
 
     function removePeer(peerId: string) {
         dispatch(removePeerAction(peerId));
+    }
+
+    function handleClickEndMeeting() {
+        if(myCall) {
+            myCall.close();
+            ws.emit('leave-room');
+        }
+        navigate('/');
+    }
+
+    function handleToogleAudio() {
+        let localStream = new MediaStream(stream.getTracks());
+        let currentValue = localStream.getAudioTracks()[0].enabled;
+        localStream.getAudioTracks()[0].enabled = !currentValue;
+        setStream(localStream);
+    }
+
+    function handleToogleVideo() {
+        let localStream = new MediaStream(stream.getTracks());
+        let currentValue = localStream.getVideoTracks()[0].enabled;
+        localStream.getVideoTracks()[0].enabled = !currentValue;
+        setStream(localStream);
     }
 
     useEffect(() => {
@@ -104,7 +129,13 @@ export function RoomProvider({ children }) {
     }, []);
 
     useEffect(() => {
+        console.log('test!');
         if(!myPeer || !stream) return;
+
+        if(myCall) {
+            myCall.answer(stream);
+            return;
+        }
 
         // // receive call from (1), send back my stream to people joining in the room
         myPeer.on('call', (call) => {
@@ -134,10 +165,10 @@ export function RoomProvider({ children }) {
             }, 1000);
 
         })
-    }, [myPeer, stream]);
+    }, [myPeer, stream, myCall]);
 
     // console.log('Room Context called!!');
     return (
-        <RoomContext.Provider value={{ ws, myPeer, stream, peers, myCall }}>{children}</RoomContext.Provider>
+        <RoomContext.Provider value={{ ws, myPeer, stream, peers, myCall, handleToogleAudio, handleToogleVideo, handleClickEndMeeting }}>{children}</RoomContext.Provider>
     )
 }
