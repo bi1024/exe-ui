@@ -1,12 +1,33 @@
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
+import { RoomContext } from "@/context/RoomContext";
 
 import { AvatarImage } from "@radix-ui/react-avatar";
 import { Clock, Video } from "lucide-react";
+import { useContext } from "react";
+import { useNavigate } from "react-router-dom";
+
+// basic interface of Lesson
+interface Props {
+  _id: string
+  startTime: Date
+  endTime: Date
+}
 
 const ScheduleItemForTutorCard = ({ lesson }) => {
+  const navigate = useNavigate();
   const startTimeObject = new Date(lesson?.startTime);
   const endTimeObject = new Date(lesson?.endTime);
+
+  const { ws, myPeer } = useContext(RoomContext);
+
+  function handleJoinRoom() {
+    ws.emit('join-room', { peerId: myPeer._id, scheduleId: lesson._id });
+    ws.on('join-succeed', ({ roomId } : { roomId: string }) => {
+      navigate(`/room/${roomId}`)
+    }) 
+  }
+
   return (
     <div
       key={lesson?._id}
@@ -46,7 +67,7 @@ const ScheduleItemForTutorCard = ({ lesson }) => {
                       >
                         <MessageSquare className="h-4 w-4" />
                       </Button> */}
-        <Button size="sm" className="h-8 w-8 p-0">
+        <Button size="sm" className="h-8 w-8 p-0" onClick={handleJoinRoom}>
           <Video className="h-4 w-4" />
         </Button>
       </div>

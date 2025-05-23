@@ -1,8 +1,10 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import { RoomContext } from "@/context/RoomContext";
 import { MessageSquare, Video } from "lucide-react";
-import React from "react";
+import React, { useContext } from "react";
+import { useNavigate } from "react-router-dom";
 
 export interface LessonRaw {
   _id: string;
@@ -39,8 +41,18 @@ type ScheduleItemCardProps = {
 };
 
 const ScheduleItemCard = ({ lesson }: ScheduleItemCardProps) => {
+  const navigate = useNavigate();
   const startTimeObject = new Date(lesson.startTime);
   const endTimeObject = new Date(lesson.endTime);
+
+  const { ws, myPeer } = useContext(RoomContext);
+
+  function handleJoinRoom() {
+    ws.emit('join-room', { peerId: myPeer._id, scheduleId: lesson._id });
+    ws.on('join-succeed', ({ roomId } : { roomId: string }) => {
+      navigate(`/room/${roomId}`)
+    }) 
+  }
 
   return (
     <Card key={lesson._id}>
@@ -72,7 +84,7 @@ const ScheduleItemCard = ({ lesson }: ScheduleItemCardProps) => {
               <MessageSquare className="h-4 w-4 mr-2" />
               Message
             </Button>
-            <Button size="sm">
+            <Button size="sm" onClick={handleJoinRoom}>
               <Video className="h-4 w-4 mr-2" />
               Join Lesson
             </Button>

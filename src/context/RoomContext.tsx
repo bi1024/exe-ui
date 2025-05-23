@@ -35,7 +35,6 @@ function getCurrentTime() {
   return `${formattedHours}:${formattedMinutes}:${formattedSeconds}.${formattedMilliseconds}`;
 }
 
-
 export function RoomProvider({ children }) {
 
     const navigate = useNavigate();
@@ -65,6 +64,7 @@ export function RoomProvider({ children }) {
             console.log('Need token and user');
             return;
         }
+        // todo: nếu mở 2 tab khác nhau thì ko vào được, vì peer dùng chung user.id nên ko tạo mới peer được
         const peer = new Peer(user.id, {
             host: import.meta.env.VITE_PEER_HOST || 'localhost',
             port: import.meta.env.VITE_PEER_PORT || 5000,
@@ -108,28 +108,35 @@ export function RoomProvider({ children }) {
 
         // // receive call from (1), send back my stream to people joining in the room
         myPeer.on('call', (call) => {
+            console.log('receive new call');
             setTimeout(() => {
+                console.log('2', getCurrentTime());
                 call.answer(stream); // 2. send back my stream
-                call.on('stream', (peerStream) => { // 3. receive stream, add video
-                    dispatch(addPeerAction(call.peer, peerStream));
-                })
-                setMyCall(call);
-            }, 500);
-
+            }, 1000);
+            call.on('stream', (peerStream) => { // 3. receive stream, add video
+                console.log('3', getCurrentTime());
+                dispatch(addPeerAction(call.peer, peerStream));
+            })
+            setMyCall(call);
         })
 
         // message from server: someone has joined, other people should call & send stream to that person (1)
         ws.on('user-joined', ({peerId}: {peerId: string}) => {
+            console.log('new user has just joined room', peerId);
             setTimeout(() => {
+                console.log('1', getCurrentTime());
                 const call = myPeer.call(peerId, stream); // 1. call, send stream to new person
                 call.on('stream', (peerStream) => { // 4. receive stream from new person
+                    console.log('4', getCurrentTime());
                     dispatch(addPeerAction(peerId, peerStream));
                 })
-                setMyCall(call);
-            }, 500);
+            setMyCall(call);
+            }, 1000);
+
         })
     }, [myPeer, stream]);
 
+    // console.log('Room Context called!!');
     return (
         <RoomContext.Provider value={{ ws, myPeer, stream, peers, myCall }}>{children}</RoomContext.Provider>
     )

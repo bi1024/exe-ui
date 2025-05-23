@@ -19,7 +19,7 @@ import { setCredentials } from "./store/slices/authSlice";
 import BookingForm from "./pages/student/booking/BookingForm";
 import PaymentFailedPage from "./components/PaymentFailedPage";
 import StartMeetingPage from "./pages/common/room/StartMeetingPage";
-import Room from "./pages/common/room/Room";
+import Room from "./pages/common/room/RoomV2";
 import { RoomProvider } from "./context/RoomContext";
 import Dashboard from "./components/Dashboard";
 

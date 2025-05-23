@@ -11,11 +11,6 @@ export default function Room() {
     const { id : roomId } = useParams();
     const { ws, myPeer, stream, peers, myCall } = useContext(RoomContext);
 
-    useEffect(() => {
-        console.log(`join room ${roomId}`);
-        if(myPeer) ws.emit('join-room', { roomId, peerId: myPeer._id });
-    }, [ws, roomId, myPeer]);
-
     function handleClickEndMeeting() {
         if(myCall) {
             myCall.close();
