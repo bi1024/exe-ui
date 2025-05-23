@@ -87,6 +87,7 @@ const HomePage = () => {
     async function fetchTutors() {
       try {
         const response = await apiClient.get("/tutor");
+      
         setTutors(response.data.data);
       } catch (err) {
         console.log(err);
@@ -177,14 +178,8 @@ const HomePage = () => {
 
       {/* Hero Section */}
       <section className="py-12 md:py-24 lg:py-32 bg-gradient-to-b from-background to-muted/30">
-        <button onClick={handlePost}>TEST API AUTH</button>
-        {schedules?.map((schedule) => (
-          // <Button>JOIN </Button>
-          // <div onClick={createRoom}>
-          //   <Create />
-          // </div>
-          <ScheduleItemCard lesson={schedule} />
-        ))}
+        {/* <button onClick={handlePost}>TEST API AUTH</button> */}
+
         <div className="container px-4 md:px-6">
           <div className="grid gap-6 lg:grid-cols-2 lg:gap-12 items-center">
             <div className="flex flex-col justify-center space-y-4">
@@ -229,6 +224,22 @@ const HomePage = () => {
         </div>
       </section>
 
+      <Card className="lg:col-span-2">
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <Clock className="h-5 w-5" />
+            Upcoming Lessons
+          </CardTitle>
+          <CardDescription>Your scheduled lessons</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <div className="space-y-4">
+            {schedules.map((lesson) => (
+              <ScheduleItemCard lesson={lesson} />
+            ))}
+          </div>
+        </CardContent>
+      </Card>
       {/* Search and Filter Section */}
       <section className="py-8 border-t border-b bg-muted/30">
         <div className="container px-4 md:px-6">
@@ -241,7 +252,7 @@ const HomePage = () => {
               />
             </div>
             <div className="flex flex-wrap gap-2 w-full md:w-auto">
-              <div className="flex items-center gap-2">
+              {/* <div className="flex items-center gap-2">
                 <Select defaultValue="all">
                   <SelectTrigger className="w-[180px]">
                     <SelectValue placeholder="Subject" />
@@ -254,8 +265,8 @@ const HomePage = () => {
                     <SelectItem value="arts">Arts</SelectItem>
                   </SelectContent>
                 </Select>
-              </div>
-              <div className="flex items-center gap-2">
+              </div> */}
+              {/* <div className="flex items-center gap-2">
                 <Select defaultValue="any">
                   <SelectTrigger className="w-[180px]">
                     <SelectValue placeholder="Availability" />
@@ -267,7 +278,7 @@ const HomePage = () => {
                     <SelectItem value="weekend">Weekend</SelectItem>
                   </SelectContent>
                 </Select>
-              </div>
+              </div> */}
               <Button variant="outline" size="icon" className="shrink-0">
                 <Filter className="h-4 w-4" />
               </Button>
@@ -306,14 +317,24 @@ const HomePage = () => {
                             src={tutor?.image}
                             alt={tutor.username}
                           />
-                          <AvatarFallback>{tutor.fullname}</AvatarFallback>
+                          <AvatarFallback>
+                            {tutor.fullname.charAt(0)}
+                          </AvatarFallback>
                         </Avatar>
                       </div>
                     </div>
                   </CardHeader>
                   <CardContent className="pt-4 text-center">
                     <CardTitle>{tutor.fullname}</CardTitle>
-                    {/* <CardDescription>{teacher.subject}</CardDescription> */}
+                    <CardDescription>
+                      {tutor.skills.map((skill, index) => {
+                        var st = skill.name;
+                        if (index < tutor.skills.length - 1) {
+                          st += " | ";
+                        }
+                        return st;
+                      })}
+                    </CardDescription>
                     {/* <div className="flex items-center justify-center mt-2 gap-1">
                       <Star className="h-4 w-4 fill-primary text-primary" />
                       <span className="font-medium">{teacher.rating}</span>

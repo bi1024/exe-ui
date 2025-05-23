@@ -68,10 +68,10 @@ const ScheduleItemCard = ({ lesson }: ScheduleItemCardProps) => {
             </div>
           </div>
           <div className="flex space-x-2">
-            <Button size="sm" variant="outline">
+            {/* <Button size="sm" variant="outline">
               <MessageSquare className="h-4 w-4 mr-2" />
               Message
-            </Button>
+            </Button> */}
             <Button size="sm">
               <Video className="h-4 w-4 mr-2" />
               Join Lesson
