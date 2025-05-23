@@ -1,9 +1,10 @@
 import apiClient from "@/api/apiClient";
 import Calendar from "@/components/calendar/Calendar";
+import { Button } from "@/components/ui/button";
 import Sidebar from "@/pages/student/booking/components/Sidebar";
 import { ISlot, ISlotReturned } from "@/pages/tutor/schedule/EditSlotsForm";
 import { useEffect, useState } from "react";
-import { useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
 
 const test = "682aecc3f896b563e90d4310";
 
@@ -12,6 +13,7 @@ export default function BookingForm() {
   const [showOffCanvas, setShowOffCanvas] = useState(false);
   const [slots, setSlots] = useState<ISlot[]>([]);
   const [selectedSlot, setSelectedSlot] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     async function fetchSlots() {
@@ -49,6 +51,13 @@ export default function BookingForm() {
         onHide={() => setShowOffCanvas(false)}
         selectedSlot={selectedSlot}
       />
+      <Button
+        onClick={() => {
+          navigate("/");
+        }}
+      >
+        Back
+      </Button>
       <Calendar slots={slots} handleSelectSlot={handleSelectSlot} />
     </div>
   );
