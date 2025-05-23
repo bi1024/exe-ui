@@ -82,6 +82,11 @@ const HomePage = () => {
       availableSlots: 7,
     },
   ];
+  useEffect(() => {
+    if (user?.role === "tutor") {
+      navigate("/tutor/dashboard");
+    }
+  }, [user]);
 
   useEffect(() => {
     async function fetchTutors() {
