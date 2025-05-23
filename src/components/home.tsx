@@ -87,7 +87,7 @@ const HomePage = () => {
     async function fetchTutors() {
       try {
         const response = await apiClient.get("/tutor");
-      
+
         setTutors(response.data.data);
       } catch (err) {
         console.log(err);
@@ -125,7 +125,7 @@ const HomePage = () => {
         <div className="container flex h-16 items-center justify-between">
           <div className="flex items-center gap-6">
             <Link to="/" className="text-xl font-bold">
-              LessonHub
+              SkillFlow
             </Link>
             <nav className="hidden md:flex items-center gap-6">
               <Link to="/" className="text-sm font-medium">
@@ -224,22 +224,6 @@ const HomePage = () => {
         </div>
       </section>
 
-      <Card className="lg:col-span-2">
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <Clock className="h-5 w-5" />
-            Upcoming Lessons
-          </CardTitle>
-          <CardDescription>Your scheduled lessons</CardDescription>
-        </CardHeader>
-        <CardContent>
-          <div className="space-y-4">
-            {schedules.map((lesson) => (
-              <ScheduleItemCard lesson={lesson} />
-            ))}
-          </div>
-        </CardContent>
-      </Card>
       {/* Search and Filter Section */}
       <section className="py-8 border-t border-b bg-muted/30">
         <div className="container px-4 md:px-6">
@@ -385,6 +369,25 @@ const HomePage = () => {
             </div>
           </TabsContent>
         </Tabs>
+
+        <div className="container my-8">
+          <Card className="lg:col-span-2">
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <Clock className="h-5 w-5" />
+                Upcoming Lessons
+              </CardTitle>
+              <CardDescription>Your scheduled lessons</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-4">
+                {schedules.map((lesson) => (
+                  <ScheduleItemCard lesson={lesson} />
+                ))}
+              </div>
+            </CardContent>
+          </Card>
+        </div>
       </main>
 
       {/* Features Section */}
@@ -442,7 +445,7 @@ const HomePage = () => {
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
             <div>
               <Link to="/" className="text-xl font-bold">
-                LessonHub
+                SkillFlow
               </Link>
               <p className="text-muted-foreground mt-2">
                 Learn from the best teachers around the world.
