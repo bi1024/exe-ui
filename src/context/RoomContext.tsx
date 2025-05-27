@@ -94,7 +94,7 @@ export function RoomProvider({ children }) {
             host: import.meta.env.VITE_PEER_HOST || 'localhost',
             port: import.meta.env.VITE_PEER_PORT || 5000,
         });
-        console.log('my uuid: ', peer._id);
+        console.log('my uuid: ', (peer as any)._id);
         peer.on('open', () => {
             setMyPeer(peer);
         })

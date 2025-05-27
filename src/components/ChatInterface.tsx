@@ -81,21 +81,21 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({
     {
       id: 'm2',
       senderId: 'user1',
-      content: 'I've completed most of it, but I have a question about the third exercise.',
+      content: "I've completed most of it, but I have a question about the third exercise.",
       timestamp: new Date(Date.now() - 1000 * 60 * 30), // 30 minutes ago
       read: true,
     },
     {
       id: 'm3',
       senderId: 'teacher1',
-      content: 'Sure, what's your question?',
+      content: "Sure, what's your question?",
       timestamp: new Date(Date.now() - 1000 * 60 * 25), // 25 minutes ago
       read: true,
     },
     {
       id: 'm4',
       senderId: 'user1',
-      content: 'I'm not sure how to approach the problem. Could we go over it in our next lesson?',
+      content: "I'm not sure how to approach the problem. Could we go over it in our next lesson?",
       timestamp: new Date(Date.now() - 1000 * 60 * 20), // 20 minutes ago
       read: true,
     },
