@@ -22,6 +22,7 @@ import StartMeetingPage from "./pages/common/room/StartMeetingPage";
 import Room from "./pages/common/room/RoomV2";
 import { RoomProvider } from "./context/RoomContext";
 import Dashboard from "./components/Dashboard";
+import PricingPage from "./components/PricingPage";
 
 function App() {
   const dispatch = useDispatch();
@@ -59,6 +60,8 @@ function App() {
           <Route path="/tutor/skills/list" element={<SkillsList />} />
 
           <Route path="/tutor/skills/create" element={<AddSkillForm />} />
+
+          <Route path="/tutor/pricing" element={<PricingPage />} />
 
           <Route
             path="/tutor/skills/edit/:skillId"

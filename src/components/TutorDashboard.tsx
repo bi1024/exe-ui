@@ -139,6 +139,10 @@ const TutorDashboard = () => {
     navigate("/tutor/schedule");
   }
 
+  function handleClickPricing() {
+    navigate("/tutor/pricing");
+  }
+
   return (
     <div className="min-h-screen bg-background">
       {/* Header */}
@@ -207,6 +211,8 @@ const TutorDashboard = () => {
             Show my skills
           </Button>
           <Button onClick={handleClickEditSchedule}>Edit my schedule</Button>
+          <Button>Certifications</Button>
+          <Button onClick={handleClickPricing}>Pricing</Button>
         </div>
         {/* <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
           {stats.map((stat, index) => (
