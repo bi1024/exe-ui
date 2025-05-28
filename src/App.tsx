@@ -23,6 +23,7 @@ import Room from "./pages/common/room/RoomV2";
 import { RoomProvider } from "./context/RoomContext";
 import Dashboard from "./components/Dashboard";
 import PricingPage from "./components/PricingPage";
+import TutorCertificationsPage from "./components/TutorCertificationsPage";
 
 function App() {
   const dispatch = useDispatch();
@@ -69,6 +70,7 @@ function App() {
           />
 
           <Route path="/tutor/schedule" element={<EditSlotsForm />} />
+          <Route path="/tutor/certifications" element={<TutorCertificationsPage />} />
 
           <Route path="/student/booking/:tutorId" element={<BookingForm />} />
 
