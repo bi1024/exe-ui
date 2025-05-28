@@ -92,10 +92,13 @@ export function RoomProvider({ children }) {
         // todo: nếu mở 2 tab khác nhau thì ko vào được, vì peer dùng chung user.id nên ko tạo mới peer được
         const peer = new Peer(user.id, {
             host: import.meta.env.VITE_PEER_HOST || 'localhost',
-            port: import.meta.env.VITE_PEER_PORT || 5000,
+            // port: import.meta.env.VITE_PEER_PORT || 5000
+            path: '/',
+            secure: true
         });
         console.log('my uuid: ', peer._id);
-        peer.on('open', () => {
+        peer.on('open', (id) => {
+            console.log('connect peer success, id:', id);
             setMyPeer(peer);
         })
 
