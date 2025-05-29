@@ -13,7 +13,7 @@ export default function Room() {
 
     useEffect(() => {
         console.log(`join room ${roomId}`);
-        if(myPeer) ws.emit('join-room', { roomId, peerId: myPeer._id });
+        if(myPeer) ws.emit('join-room', { roomId, peerId: (myPeer as any)._id });
     }, [ws, roomId, myPeer]);
 
     function handleClickEndMeeting() {

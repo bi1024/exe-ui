@@ -279,7 +279,7 @@ const TeacherGrid = ({ teachers = [] }: TeacherGridProps) => {
               specialization={teacher.specialization}
               rating={teacher.rating}
               pricePerHour={teacher.pricePerHour}
-              availableSlots={teacher.availableSlots}
+              availableSlots={teacher.availableSlots.length}
             />
           ))}
         </div>

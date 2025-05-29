@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { Button } from "./ui/button";
 import {
   Card,
@@ -8,112 +8,14 @@ import {
   CardHeader,
   CardTitle,
 } from "./ui/card";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "./ui/tabs";
-import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
-import { Badge } from "./ui/badge";
-import { Calendar } from "./ui/calendar";
-import {
-  Calendar as CalendarIcon,
-  MessageSquare,
-  Video,
-  Users,
-  Settings,
-  Clock,
-  DollarSign,
-  Star,
-  LogOut,
-} from "lucide-react";
-import { useDispatch, useSelector } from "react-redux";
-import { logout } from "@/store/slices/authSlice";
-import { RootState } from "@/store";
+import { Clock } from "lucide-react";
 import ScheduleItemForTutorCard from "@/pages/tutor/schedule/components/ScheduleItemForTutorCard";
 import apiClient from "@/api/apiClient";
+import Header from "./layouts/Header";
 
 const TutorDashboard = () => {
-  const user = useSelector((state: RootState) => state.auth.user);
-  const [date, setDate] = useState<Date | undefined>(new Date());
   const navigate = useNavigate();
-  const dispatch = useDispatch();
   const [upcomingLessons, setUpcomingLessons] = useState([]);
-
-  const handleLogout = () => {
-    localStorage.removeItem("accessToken");
-    dispatch(logout());
-    navigate("/");
-  };
-
-  // Mock data
-  // const upcomingLessons = [
-  //   {
-  //     id: 1,
-  //     studentName: "Alex Johnson",
-  //     subject: "Mathematics",
-  //     date: "Today",
-  //     time: "3:00 PM - 4:00 PM",
-  //     status: "confirmed",
-  //     image: "https://api.dicebear.com/7.x/avataaars/svg?seed=alex",
-  //   },
-  //   {
-  //     id: 2,
-  //     studentName: "Emma Wilson",
-  //     subject: "Physics",
-  //     date: "Tomorrow",
-  //     time: "1:00 PM - 2:30 PM",
-  //     status: "confirmed",
-  //     image: "https://api.dicebear.com/7.x/avataaars/svg?seed=emma",
-  //   },
-  //   {
-  //     id: 3,
-  //     studentName: "Michael Brown",
-  //     subject: "Mathematics",
-  //     date: "May 20, 2023",
-  //     time: "5:00 PM - 6:00 PM",
-  //     status: "pending",
-  //     image: "https://api.dicebear.com/7.x/avataaars/svg?seed=michael",
-  //   },
-  // ];
-
-  // const recentMessages = [
-  //   {
-  //     id: 1,
-  //     name: "Alex Johnson",
-  //     message: "Hi, I have a question about tomorrow's lesson...",
-  //     time: "10 min ago",
-  //     unread: true,
-  //     image: "https://api.dicebear.com/7.x/avataaars/svg?seed=alex",
-  //   },
-  //   {
-  //     id: 2,
-  //     name: "Emma Wilson",
-  //     message: "Thanks for the homework review!",
-  //     time: "2 hours ago",
-  //     unread: false,
-  //     image: "https://api.dicebear.com/7.x/avataaars/svg?seed=emma",
-  //   },
-  // ];
-
-  // const stats = [
-  //   {
-  //     title: "Total Students",
-  //     value: "24",
-  //     icon: <Users className="h-4 w-4" />,
-  //   },
-  //   {
-  //     title: "Completed Lessons",
-  //     value: "156",
-  //     icon: <Clock className="h-4 w-4" />,
-  //   },
-  //   {
-  //     title: "Earnings This Month",
-  //     value: "$1,240",
-  //     icon: <DollarSign className="h-4 w-4" />,
-  //   },
-  //   {
-  //     title: "Average Rating",
-  //     value: "4.9",
-  //     icon: <Star className="h-4 w-4" />,
-  //   },
-  // ];
 
   useEffect(() => {
     async function fetchSchedules() {
@@ -139,55 +41,18 @@ const TutorDashboard = () => {
     navigate("/tutor/schedule");
   }
 
+  function handleClickPricing() {
+    navigate("/tutor/pricing");
+  }
+
+  function handleClickCertifications() {
+    navigate("/tutor/certifications");
+  }
+
   return (
     <div className="min-h-screen bg-background">
       {/* Header */}
-      <header className="sticky top-0 z-10 border-b bg-background/95 backdrop-blur">
-        <div className="container flex h-16 items-center justify-between">
-          <div className="flex items-center gap-6">
-            <Link to="/" className="text-xl font-bold">
-              SkillFlow
-            </Link>
-            <span className="text-sm font-medium text-muted-foreground">
-              Teacher Dashboard
-            </span>
-          </div>
-          <div className="flex items-center gap-4">
-            {/* <Button variant="ghost" size="sm" className="gap-2">
-              <MessageSquare className="h-4 w-4" />
-              <span className="hidden md:inline">Messages</span>
-              <Badge variant="secondary" className="ml-1">
-                2
-              </Badge>
-            </Button> */}
-            {/* <Button variant="ghost" size="sm" className="gap-2">
-              <Settings className="h-4 w-4" />
-              <span className="hidden md:inline">Settings</span>
-            </Button> */}
-            <Button
-              variant="ghost"
-              size="sm"
-              className="gap-2"
-              onClick={handleLogout}
-            >
-              <LogOut className="h-4 w-4" />
-              <span className="hidden md:inline">Log out</span>
-            </Button>
-            <div className="flex items-center gap-2">
-              <Avatar>
-                {/* <AvatarImage src="https://api.dicebear.com/7.x/avataaars/svg?seed=teacher" /> */}
-                <AvatarFallback>{user?.email.charAt(0)}</AvatarFallback>
-              </Avatar>
-              <div className="hidden md:block">
-                <p className="text-sm font-medium">{user?.email}</p>
-                {/* <p className="text-xs text-muted-foreground">
-                  Mathematics Teacher
-                </p> */}
-              </div>
-            </div>
-          </div>
-        </div>
-      </header>
+      <Header />
 
       {/* Main Content */}
       <main className="container px-4 md:px-6 py-8">
@@ -207,6 +72,8 @@ const TutorDashboard = () => {
             Show my skills
           </Button>
           <Button onClick={handleClickEditSchedule}>Edit my schedule</Button>
+          <Button onClick={handleClickCertifications}>Certifications</Button>
+          <Button onClick={handleClickPricing}>Pricing</Button>
         </div>
         {/* <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
           {stats.map((stat, index) => (

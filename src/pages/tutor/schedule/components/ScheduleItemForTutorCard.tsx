@@ -22,7 +22,7 @@ const ScheduleItemForTutorCard = ({ lesson }) => {
   const { ws, myPeer } = useContext(RoomContext);
 
   function handleJoinRoom() {
-    ws.emit('join-room', { peerId: myPeer._id, scheduleId: lesson._id });
+    ws.emit('join-room', { peerId: (myPeer as any)._id, scheduleId: lesson._id });
     ws.on('join-succeed', ({ roomId } : { roomId: string }) => {
       navigate(`/room/${roomId}`)
     }) 
