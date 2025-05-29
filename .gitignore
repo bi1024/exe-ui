@@ -33,6 +33,3 @@ core
 
 .github/
 
-# env files
-.env
-
