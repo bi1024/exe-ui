@@ -345,8 +345,7 @@ const HomePage = () => {
                       size="sm"
                       className="w-full gap-2"
                     >
-                      <MessageSquare className="h-4 w-4" />
-                      Message
+                      See certs
                     </Button> */}
                     <Button
                       size="sm"
