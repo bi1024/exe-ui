@@ -38,11 +38,21 @@ import apiClient from "@/api/apiClient";
 import { RoomContext } from "@/context/RoomContext";
 import Create from "@/pages/common/room/components/CreateButton";
 import ScheduleItemCard from "@/pages/tutor/schedule/components/ScheduleItemCard";
+import { skills } from "@/pages/tutor/skills/AddSkillForm";
+import { ISkill } from "@/pages/tutor/skills/SkillsList";
+
+export interface ITutor {
+  _id: string
+  image?: string
+  username: string
+  fullname: string
+  skills: ISkill[]
+}
 
 const HomePage = () => {
   const user = useSelector((state: RootState) => state.auth.user);
   const token = useSelector((state: RootState) => state.auth.token);
-  const [tutors, setTutors] = useState([]);
+  const [tutors, setTutors] = useState<ITutor[]>([]);
   const [schedules, setSchedules] = useState([]);
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -52,36 +62,10 @@ const HomePage = () => {
     ws.emit("create-room");
   }
 
-  // Mock data for featured teachers
-  const featuredTeachers = [
-    {
-      id: 1,
-      name: "Sarah Johnson",
-      subject: "Mathematics",
-      rating: 4.9,
-      price: 45,
-      image: "https://api.dicebear.com/7.x/avataaars/svg?seed=sarah",
-      availableSlots: 5,
-    },
-    {
-      id: 2,
-      name: "David Chen",
-      subject: "Physics",
-      rating: 4.8,
-      price: 50,
-      image: "https://api.dicebear.com/7.x/avataaars/svg?seed=david",
-      availableSlots: 3,
-    },
-    {
-      id: 3,
-      name: "Maria Garcia",
-      subject: "Spanish",
-      rating: 5.0,
-      price: 40,
-      image: "https://api.dicebear.com/7.x/avataaars/svg?seed=maria",
-      availableSlots: 7,
-    },
-  ];
+  const [searchInput, setSearchInput] = useState<string>('');
+  const [searchFilter, setSearchFilter] = useState<string>('');
+  const [skillCategoryFilter, setSkillCategoryFilter] = useState<string>();
+
   useEffect(() => {
     if (user?.role === "tutor") {
       navigate("/tutor/dashboard");
@@ -112,6 +96,22 @@ const HomePage = () => {
     fetchSchedules();
   }, []);
 
+  useEffect(() => {
+    const filterQuery = `search=${searchFilter}&skillCategory=${skillCategoryFilter}`;
+    console.log(filterQuery);
+
+    async function fetchTutorsFiltered() {
+      try {
+        const response = await apiClient.get(`/student/tutors-filter/?${filterQuery}`);
+        const tutors = response.data.data;
+        setTutors(tutors);
+      } catch(err) {
+        console.log(err);
+      }
+    }
+    fetchTutorsFiltered();
+  }, [searchFilter, skillCategoryFilter]);
+
   const handleLogout = () => {
     localStorage.removeItem("accessToken");
     dispatch(logout());
@@ -122,6 +122,18 @@ const HomePage = () => {
     const result = await apiClient.get("/tutor/schedules/schedule-today");
     console.log(result);
   };
+
+  const handleOnChangeCategory = (value: string) => {
+    setSkillCategoryFilter(value);
+  }
+
+  const handleOnChangeSearchInput = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchInput(event.target.value);
+  }
+
+  const handleOnClickSearch = () => {
+    setSearchFilter(searchInput);
+  }
 
   return (
     <div className="min-h-screen bg-background">
@@ -234,27 +246,32 @@ const HomePage = () => {
         <div className="container px-4 md:px-6">
           <div className="flex flex-col md:flex-row gap-4 items-center justify-between">
             <div className="relative w-full md:w-1/3">
-              <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+              <Search 
+                className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground cursor-pointer" 
+                onClick={handleOnClickSearch}
+              />
               <Input
                 placeholder="Search by subject or teacher name"
                 className="pl-10 w-full"
+                onChange={(event) => handleOnChangeSearchInput(event)}
               />
             </div>
             <div className="flex flex-wrap gap-2 w-full md:w-auto">
-              {/* <div className="flex items-center gap-2">
-                <Select defaultValue="all">
+              <div className="flex items-center gap-2">
+                <Select defaultValue="all" onValueChange={(value: string) => handleOnChangeCategory(value)}>
                   <SelectTrigger className="w-[180px]">
                     <SelectValue placeholder="Subject" />
                   </SelectTrigger>
-                  <SelectContent>
+                  <SelectContent >
                     <SelectItem value="all">All Subjects</SelectItem>
-                    <SelectItem value="math">Mathematics</SelectItem>
-                    <SelectItem value="science">Science</SelectItem>
-                    <SelectItem value="language">Languages</SelectItem>
-                    <SelectItem value="arts">Arts</SelectItem>
+                    {skills.map(skill => {
+                      return (
+                        <SelectItem value={skill.name}>{skill.name}</SelectItem>
+                      )
+                    })}
                   </SelectContent>
                 </Select>
-              </div> */}
+              </div>
               {/* <div className="flex items-center gap-2">
                 <Select defaultValue="any">
                   <SelectTrigger className="w-[180px]">

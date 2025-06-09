@@ -22,7 +22,7 @@ export interface ISkill {
   _id: string;
   name: string;
   description: string;
-  categories: ISkillCategory[];
+  categories: ISkillCategory[] | number[];
 }
 
 export default function SkillsList() {

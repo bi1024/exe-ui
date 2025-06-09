@@ -10,8 +10,9 @@ import { Textarea } from "@/components/ui/textarea";
 import { MessageSquare, Plus, Settings } from "lucide-react";
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import SkillCategoriesList from "./components/SkillCategoriesList";
 
-const skills = [
+export const skills = [
     { name: "Algebra" },
     { name: "Guitar" },
     { name: "Python Programming" },
@@ -29,14 +30,14 @@ const skills = [
     { name: "English Language" }
 ];
 
-function getCategoriesFormatted(categories: string[]) : string {
-    if(!categories.length) return '';
-    let result : string = categories[0];
-    for(let i = 1; i < categories.length; ++i) {
-        result += `, ${categories[i]}`;
-    }
-    return result;
-}
+// function getCategoriesFormatted(categories: string[]) : string {
+//     if(!categories.length) return '';
+//     let result : string = categories[0];
+//     for(let i = 1; i < categories.length; ++i) {
+//         result += `, ${categories[i]}`;
+//     }
+//     return result;
+// }
 
 export default function AddSkillForm() {
     const navigate = useNavigate();
@@ -102,21 +103,7 @@ export default function AddSkillForm() {
 
                         <div className="w-full flex flex-col gap-2">
                             <Label className="text-base font-medium">Skill Category</Label>
-                            <DropdownMenu>
-                                <DropdownMenuTrigger asChild>
-                                    <Input className="text-left" value={category}/>
-                                </DropdownMenuTrigger>
-
-                                <DropdownMenuPortal>
-                                    <DropdownMenuContent>
-                                        {skills.map((skill) => {
-                                            return (
-                                                <DropdownMenuItem key={skill.name} onSelect={() => handleOnChangeCategory(skill.name)}>{skill.name}</DropdownMenuItem>
-                                            )
-                                        })}
-                                    </DropdownMenuContent>
-                                </DropdownMenuPortal>
-                            </DropdownMenu>
+                            <SkillCategoriesList category={category} handleOnChangeCategory={handleOnChangeCategory} />
                         </div>
 
                         <Button 
