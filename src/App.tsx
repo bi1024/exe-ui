@@ -24,6 +24,8 @@ import { RoomProvider } from "./context/RoomContext";
 import Dashboard from "./components/Dashboard";
 import PricingPage from "./components/PricingPage";
 import TutorCertificationsPage from "./components/TutorCertificationsPage";
+import TutorsApproval from "./pages/admin/tutors-approval/TutorsApproval";
+import AdminDashboard from "./pages/admin/AdminDashboard";
 
 function App() {
   const dispatch = useDispatch();
@@ -76,6 +78,11 @@ function App() {
 
           <Route path="/start-meeting" element={<StartMeetingPage />} />
           <Route path="/room/:id" element={<Room />} />
+
+          { /* Routes for Admin pages */ }
+
+          <Route path="/admin/dashboard" element={<AdminDashboard />} />
+          <Route path="/admin/tutors-approval" element={<TutorsApproval />} />
         </Routes>
 
         {import.meta.env.VITE_TEMPO === "true" && useRoutes(routes)}
