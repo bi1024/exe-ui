@@ -69,6 +69,8 @@ const HomePage = () => {
   useEffect(() => {
     if (user?.role === "tutor") {
       navigate("/tutor/dashboard");
+    } else if(user?.role === 'admin') {
+      navigate('/admin/dashboard');
     }
   }, [user]);
 
@@ -98,7 +100,6 @@ const HomePage = () => {
 
   useEffect(() => {
     const filterQuery = `search=${searchFilter}&skillCategory=${skillCategoryFilter}`;
-    console.log(filterQuery);
 
     async function fetchTutorsFiltered() {
       try {
