@@ -24,6 +24,7 @@ import { RoomProvider } from "./context/RoomContext";
 import Dashboard from "./components/Dashboard";
 import PricingPage from "./components/PricingPage";
 import TutorCertificationsPage from "./components/TutorCertificationsPage";
+import Profile from "./pages/common/Profile";
 
 function App() {
   const dispatch = useDispatch();
@@ -50,6 +51,7 @@ function App() {
           <Route path="/register" element={<Register />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/tutor/dashboard" element={<TutorDashboard />} />
+          <Route path="/profile" element={<Profile />} />
           <Route path="/lesson/:lessonId" element={<LessonInfoPage />} />
           <Route path="/payment/:lessonId" element={<PaymentPage />} />
           <Route
@@ -70,7 +72,10 @@ function App() {
           />
 
           <Route path="/tutor/schedule" element={<EditSlotsForm />} />
-          <Route path="/tutor/certifications" element={<TutorCertificationsPage />} />
+          <Route
+            path="/tutor/certifications"
+            element={<TutorCertificationsPage />}
+          />
 
           <Route path="/student/booking/:tutorId" element={<BookingForm />} />
 
