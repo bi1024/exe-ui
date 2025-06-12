@@ -38,6 +38,8 @@ import apiClient from "@/api/apiClient";
 import { RoomContext } from "@/context/RoomContext";
 import Create from "@/pages/common/room/components/CreateButton";
 import ScheduleItemCard from "@/pages/tutor/schedule/components/ScheduleItemCard";
+import UserHeader from "./UserHeader";
+
 import { skills } from "@/pages/tutor/skills/AddSkillForm";
 import { ISkill } from "@/pages/tutor/skills/SkillsList";
 
@@ -48,6 +50,7 @@ export interface ITutor {
   fullname: string
   skills: ISkill[]
 }
+
 
 const HomePage = () => {
   const user = useSelector((state: RootState) => state.auth.user);
@@ -139,60 +142,7 @@ const HomePage = () => {
   return (
     <div className="min-h-screen bg-background">
       {/* Header */}
-      <header className="sticky top-0 z-10 border-b bg-background/95 backdrop-blur">
-        <div className="container flex h-16 items-center justify-between">
-          <div className="flex items-center gap-6">
-            <Link to="/" className="text-xl font-bold">
-              SkillFlow
-            </Link>
-            <nav className="hidden md:flex items-center gap-6">
-              <Link to="/" className="text-sm font-medium">
-                Home
-              </Link>
-              <Link to="/teachers" className="text-sm font-medium">
-                Find Teachers
-              </Link>
-              <Link to="/how-it-works" className="text-sm font-medium">
-                How It Works
-              </Link>
-              {/* <Link to="/pricing" className="text-sm font-medium">
-                Pricing
-              </Link> */}
-            </nav>
-          </div>
-          <div className="flex items-center gap-4">
-            {/* <Link to="/dashboard">
-              <Button
-                variant="ghost"
-                size="sm"
-                className="hidden md:flex gap-2"
-              >
-                <Calendar className="h-4 w-4" />
-                Dashboard
-              </Button>
-            </Link> */}
-            {user ? (
-              <>
-                {user.email}
-                <Button variant="ghost" size="sm" onClick={handleLogout}>
-                  Log out
-                </Button>
-              </>
-            ) : (
-              <>
-                <Link to="/login">
-                  <Button variant="ghost" size="sm">
-                    Login
-                  </Button>
-                </Link>
-                <Link to="/register">
-                  <Button size="sm">Sign Up</Button>
-                </Link>
-              </>
-            )}
-          </div>
-        </div>
-      </header>
+      <UserHeader />
 
       {/* Hero Section */}
       <section className="py-12 md:py-24 lg:py-32 bg-gradient-to-b from-background to-muted/30">
@@ -321,7 +271,7 @@ const HomePage = () => {
                       <div className="absolute inset-0 flex items-center justify-center">
                         <Avatar className="h-32 w-32 border-4 border-background">
                           <AvatarImage
-                            src={tutor?.image}
+                            src={tutor?.avatarUrl}
                             alt={tutor.username}
                           />
                           <AvatarFallback>

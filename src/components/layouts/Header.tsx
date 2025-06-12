@@ -6,11 +6,24 @@ import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/store";
 import { logout } from "@/store/slices/authSlice";
+import { useEffect, useState } from "react";
+import apiClient from "@/api/apiClient";
 
 export default function Header() {
   const user = useSelector((state: RootState) => state.auth.user);
+  const [avatarUrl, setAvatarUrl] = useState("");
+  console.log(user);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const getProfile = async () => {
+      const result = await apiClient.get("/profile/myProfile");
+
+      setAvatarUrl(result.data.avatarUrl);
+    };
+    getProfile();
+  }, []);
 
   const handleLogout = () => {
     localStorage.removeItem("accessToken");
@@ -52,11 +65,13 @@ export default function Header() {
           </Button> */}
           <div className="flex items-center gap-2">
             <Avatar>
-              {/* <AvatarImage src="https://api.dicebear.com/7.x/avataaars/svg?seed=teacher" /> */}
+              <AvatarImage src={avatarUrl} />
               <AvatarFallback>{user?.email.charAt(0)}</AvatarFallback>
             </Avatar>
             <div className="hidden md:block">
-              <p className="text-sm font-medium">{user?.email}</p>
+              <Link to="/profile">
+                <p className="text-sm font-medium">{user?.email}</p>
+              </Link>
               {/* <p className="text-xs text-muted-foreground">
                   Mathematics Teacher
                 </p> */}

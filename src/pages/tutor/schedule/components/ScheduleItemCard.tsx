@@ -48,10 +48,13 @@ const ScheduleItemCard = ({ lesson }: ScheduleItemCardProps) => {
   const { ws, myPeer } = useContext(RoomContext);
 
   function handleJoinRoom() {
-    ws.emit('join-room', { peerId: (myPeer as any)._id, scheduleId: lesson._id });
-    ws.on('join-succeed', ({ roomId } : { roomId: string }) => {
-      navigate(`/room/${roomId}`)
-    }) 
+    ws.emit("join-room", {
+      peerId: (myPeer as any)._id,
+      scheduleId: lesson._id,
+    });
+    ws.on("join-succeed", ({ roomId }: { roomId: string }) => {
+      navigate(`/room/${roomId}`);
+    });
   }
 
   return (
@@ -61,7 +64,7 @@ const ScheduleItemCard = ({ lesson }: ScheduleItemCardProps) => {
           <div className="flex items-center space-x-4">
             <Avatar>
               <AvatarImage
-                // src={lesson.teacherAvatar}
+                src={lesson?.tutor.avatarUrl}
                 alt={lesson?.tutor.fullname}
               />
               <AvatarFallback>
