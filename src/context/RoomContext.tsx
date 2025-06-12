@@ -97,7 +97,8 @@ export function RoomProvider({ children }) {
             secure: true
         });
         console.log('my uuid: ', (peer as any)._id);
-        peer.on('open', () => {
+        peer.on('open', (id) => {
+            console.log('connect to peer server success, id: ', id);
             setMyPeer(peer);
         })
 
