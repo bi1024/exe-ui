@@ -251,7 +251,7 @@ const HomePage = () => {
                       <div className="absolute inset-0 flex items-center justify-center">
                         <Avatar className="h-32 w-32 border-4 border-background">
                           <AvatarImage
-                            src={tutor?.image}
+                            src={tutor?.avatarUrl}
                             alt={tutor.username}
                           />
                           <AvatarFallback>
