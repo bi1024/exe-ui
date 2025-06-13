@@ -6,6 +6,7 @@ interface AuthState {
     id: string;
     email: string;
     role: string;
+    status: string;
   } | null;
 }
 
