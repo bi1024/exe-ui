@@ -49,6 +49,7 @@ export interface ITutor {
   username: string
   fullname: string
   skills: ISkill[]
+  hourlyRate: number
 }
 
 
@@ -67,7 +68,7 @@ const HomePage = () => {
 
   const [searchFilter, setSearchFilter] = useState<string>('');
   // const [searchFilter, setSearchFilter] = useState<string>('');
-  const [skillCategoryFilter, setSkillCategoryFilter] = useState<string>();
+  const [skillCategoryFilter, setSkillCategoryFilter] = useState<string>('all');
   const [minPriceFilter, setMinPriceFilter] = useState<number | ''>('');
   const [maxPriceFilter, setMaxPriceFilter] = useState<number | ''>('');
 
@@ -326,13 +327,19 @@ const HomePage = () => {
                   <CardContent className="pt-4 text-center">
                     <CardTitle>{tutor.fullname}</CardTitle>
                     <CardDescription>
-                      {tutor.skills.map((skill, index) => {
-                        var st = skill.name;
-                        if (index < tutor.skills.length - 1) {
-                          st += " | ";
-                        }
-                        return st;
-                      })}
+                      <div>
+                        {tutor.skills.map((skill, index) => {
+                          var st = skill.name;
+                          if (index < tutor.skills.length - 1) {
+                            st += " | ";
+                          }
+                          return st;
+                        })}
+                      </div>
+
+                      <div>
+                        Hourly Rate: {tutor.hourlyRate}
+                      </div>
                     </CardDescription>
                     {/* <div className="flex items-center justify-center mt-2 gap-1">
                       <Star className="h-4 w-4 fill-primary text-primary" />
