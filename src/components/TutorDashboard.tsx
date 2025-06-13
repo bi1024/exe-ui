@@ -12,9 +12,21 @@ import { Clock } from "lucide-react";
 import ScheduleItemForTutorCard from "@/pages/tutor/schedule/components/ScheduleItemForTutorCard";
 import apiClient from "@/api/apiClient";
 import Header from "./layouts/Header";
+import { useSelector } from "react-redux";
+import { RootState } from "@/store";
 
 const TutorDashboard = () => {
   const navigate = useNavigate();
+
+  const user = useSelector((state: RootState) => state.auth.user);
+  if(!user || user.role !== 'tutor') {
+    navigate('/login');
+  } else if(user.status === 'pending') {
+    return (
+      <Header />
+    )
+  }
+
   const [upcomingLessons, setUpcomingLessons] = useState([]);
 
   useEffect(() => {
