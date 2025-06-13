@@ -7,6 +7,13 @@ import Header from "./layouts/Header";
 import { Carousel, CarouselContent, CarouselItem } from "./ui/carousel";
 import apiClient from "@/api/apiClient";
 import { Dialog, DialogContent, DialogTrigger } from "./ui/dialog";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuRadioGroup,
+  DropdownMenuRadioItem,
+  DropdownMenuTrigger,
+} from "./ui/dropdown-menu";
 
 const TutorCertificationsPage = () => {
   const navigate = useNavigate();
@@ -14,6 +21,9 @@ const TutorCertificationsPage = () => {
   // const [index, setIndex] = useState(0);
   const [certName, setCertName] = useState("");
   const [certDesc, setCertDesc] = useState("");
+  const [skills, setSkills] = useState([]);
+  const [selectedSkill, setSelectedSkill] = useState("");
+  const [selectedSkillName, setSelectedSkillName] = useState("");
   const [selectedImage, setSelectedImage] = useState(null);
   const [showingImage, setShowingImage] = useState<string | null>(null);
 
@@ -22,10 +32,23 @@ const TutorCertificationsPage = () => {
   useEffect(() => {
     const getCerts = async () => {
       const result = await apiClient.get("/tutor/certs");
-      // console.log(result.data.data);
+      console.log(result.data.data);
       setCertifications(result.data.data);
     };
     getCerts();
+  }, []);
+
+  useEffect(() => {
+    async function fetchSkills() {
+      try {
+        const response = await apiClient.get("/tutor/skills");
+        setSkills(response.data);
+        console.log(response.data);
+      } catch (err) {
+        console.log(err);
+      }
+    }
+    fetchSkills();
   }, []);
 
   const handleOnChangeCertName = (e) => {
@@ -41,6 +64,7 @@ const TutorCertificationsPage = () => {
     formData.append("file", selectedImage);
     formData.append("certName", certName);
     formData.append("certDesc", certDesc);
+    formData.append("skillId", selectedSkill);
 
     // const body = {
     //   certName: certName,
@@ -56,6 +80,13 @@ const TutorCertificationsPage = () => {
     console.log(_id);
     setCertifications(certifications.filter((e) => e._id !== _id));
     const result = await apiClient.delete(`/tutor/certs/${_id}`);
+  };
+
+  const handleSelectSkill = (e) => {
+    console.log(e);
+    const curr = skills.find((element) => element._id === e);
+    setSelectedSkill(e);
+    setSelectedSkillName(curr.name);
   };
 
   return (
@@ -112,6 +143,27 @@ const TutorCertificationsPage = () => {
                 // value={hourlyRate}
                 // onChange={handleOnChangeRate}
               />
+
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="outline">
+                    {selectedSkillName ? selectedSkillName : "Select Skill"}
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent className="w-56">
+                  <DropdownMenuRadioGroup
+                    value={selectedSkill}
+                    onValueChange={handleSelectSkill}
+                  >
+                    {" "}
+                    {skills.map((skill) => (
+                      <DropdownMenuRadioItem value={skill._id}>
+                        {skill.name}
+                      </DropdownMenuRadioItem>
+                    ))}
+                  </DropdownMenuRadioGroup>
+                </DropdownMenuContent>
+              </DropdownMenu>
             </div>
             <Carousel>
               <CarouselContent>
@@ -150,6 +202,9 @@ const TutorCertificationsPage = () => {
               <h3 className="font-semibold text-sm mb-1">{cert.name}</h3>
               <p className="text-xs text-muted-foreground mb-2">
                 {cert.description}
+              </p>
+              <p className="text-xs text-muted-foreground mb-2">
+                {cert?.skill?.name}
               </p>
 
               <Dialog>
