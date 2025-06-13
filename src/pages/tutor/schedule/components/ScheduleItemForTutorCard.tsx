@@ -9,9 +9,9 @@ import { useNavigate } from "react-router-dom";
 
 // basic interface of Lesson
 interface Props {
-  _id: string
-  startTime: Date
-  endTime: Date
+  _id: string;
+  startTime: Date;
+  endTime: Date;
 }
 
 const ScheduleItemForTutorCard = ({ lesson }) => {
@@ -22,10 +22,13 @@ const ScheduleItemForTutorCard = ({ lesson }) => {
   const { ws, myPeer } = useContext(RoomContext);
 
   function handleJoinRoom() {
-    ws.emit('join-room', { peerId: (myPeer as any)._id, scheduleId: lesson._id });
-    ws.on('join-succeed', ({ roomId } : { roomId: string }) => {
-      navigate(`/room/${roomId}`)
-    }) 
+    ws.emit("join-room", {
+      peerId: (myPeer as any)._id,
+      scheduleId: lesson._id,
+    });
+    ws.on("join-succeed", ({ roomId }: { roomId: string }) => {
+      navigate(`/room/${roomId}`);
+    });
   }
 
   return (
@@ -34,7 +37,7 @@ const ScheduleItemForTutorCard = ({ lesson }) => {
       className="flex items-center gap-4 p-3 rounded-lg border"
     >
       <Avatar>
-        {/* <AvatarImage src={lesson.image} /> */}
+        <AvatarImage src={lesson?.student?.avatarUrl} />
         <AvatarFallback>{lesson?.student?.fullname?.charAt(0)}</AvatarFallback>
       </Avatar>
       <div className="flex-1">
