@@ -44,11 +44,12 @@ import { skills } from "@/pages/tutor/skills/AddSkillForm";
 import { ISkill } from "@/pages/tutor/skills/SkillsList";
 
 export interface ITutor {
-  _id: string;
-  image?: string;
-  username: string;
-  fullname: string;
-  skills: ISkill[];
+  _id: string
+  image?: string
+  username: string
+  fullname: string
+  skills: ISkill[]
+  hourlyRate: number
 }
 
 const HomePage = () => {
@@ -64,10 +65,11 @@ const HomePage = () => {
     ws.emit("create-room");
   }
 
-  const [searchInput, setSearchInput] = useState<string>("");
-  const [searchFilter, setSearchFilter] = useState<string>("");
-  const [isLoading, setIsLoading] = useState(false);
-  const [skillCategoryFilter, setSkillCategoryFilter] = useState<string>();
+  const [searchFilter, setSearchFilter] = useState<string>('');
+  // const [searchFilter, setSearchFilter] = useState<string>('');
+  const [skillCategoryFilter, setSkillCategoryFilter] = useState<string>('all');
+  const [minPriceFilter, setMinPriceFilter] = useState<number | ''>('');
+  const [maxPriceFilter, setMaxPriceFilter] = useState<number | ''>('');
 
   useEffect(() => {
     if (user?.role === "tutor") {
@@ -101,22 +103,20 @@ const HomePage = () => {
     fetchSchedules();
   }, []);
 
-  useEffect(() => {
-    const filterQuery = `search=${searchFilter}&skillCategory=${skillCategoryFilter}`;
+  // useEffect(() => {
+  //   const filterQuery = `search=${searchFilter}&skillCategory=${skillCategoryFilter}`;
 
-    async function fetchTutorsFiltered() {
-      try {
-        const response = await apiClient.get(
-          `/student/tutors-filter/?${filterQuery}`
-        );
-        const tutors = response.data.data;
-        setTutors(tutors);
-      } catch (err) {
-        console.log(err);
-      }
-    }
-    fetchTutorsFiltered();
-  }, [searchFilter, skillCategoryFilter]);
+  //   async function fetchTutorsFiltered() {
+  //     try {
+  //       const response = await apiClient.get(`/student/tutors-filter/?${filterQuery}`);
+  //       const tutors = response.data.data;
+  //       setTutors(tutors);
+  //     } catch(err) {
+  //       console.log(err);
+  //     }
+  //   }
+  //   fetchTutorsFiltered();
+  // }, [searchFilter, skillCategoryFilter]);
 
   const handleLogout = () => {
     localStorage.removeItem("accessToken");
@@ -133,15 +133,44 @@ const HomePage = () => {
     setSkillCategoryFilter(value);
   };
 
-  const handleOnChangeSearchInput = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    setSearchInput(event.target.value);
-  };
+  const handleOnChangeSearchInput = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchFilter(event.target.value);
+  }
 
-  const handleOnClickSearch = () => {
-    setSearchFilter(searchInput);
-  };
+  const handleOnChangeMinPrice = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const value = event.target.value;
+    if(!value) setMinPriceFilter('');
+    else if(/^\d*$/.test(value)) {
+      setMinPriceFilter(parseInt(value));
+    }
+  }
+
+  const handleOnChangeMaxPrice = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const value = event.target.value;
+    if(!value) setMaxPriceFilter('');
+    else if(/^\d*$/.test(value)) {
+      setMaxPriceFilter(parseInt(value));
+    }
+  }
+
+  const handleClickFilter = () => {
+    const filterQuery = `search=${searchFilter}&skillCategory=${skillCategoryFilter}&minPrice=${minPriceFilter}&maxPrice=${maxPriceFilter}`;
+
+    async function fetchTutorsFiltered() {
+      try {
+        const response = await apiClient.get(`/student/tutors-filter/?${filterQuery}`);
+        const tutors = response.data.data;
+        setTutors(tutors);
+      } catch(err) {
+        console.log(err);
+      }
+    }
+    fetchTutorsFiltered();
+  }
+
+  // const handleOnClickSearch = () => {
+  //   setSearchFilter(searchInput);
+  // }
 
   return (
     <div className="min-h-screen bg-background">
@@ -201,9 +230,9 @@ const HomePage = () => {
         <div className="container px-4 md:px-6">
           <div className="flex flex-col md:flex-row gap-4 items-center justify-between">
             <div className="relative w-full md:w-1/3">
-              <Search
-                className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground cursor-pointer"
-                onClick={handleOnClickSearch}
+              <Search 
+                className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground cursor-pointer" 
+                // onClick={handleOnClickSearch}
               />
               <Input
                 placeholder="Search by subject or teacher name"
@@ -211,7 +240,15 @@ const HomePage = () => {
                 onChange={(event) => handleOnChangeSearchInput(event)}
               />
             </div>
-            <div className="flex flex-wrap gap-2 w-full md:w-auto">
+            <div className="flex flex-wrap gap-4 w-full md:w-auto">
+
+              <div className="flex items-center gap-2">
+                Price
+                <Input placeholder="lowest" className="w-[25%]" value={minPriceFilter} onChange={handleOnChangeMinPrice}/>
+                -
+                <Input placeholder="highest" className="w-[25%]" value={maxPriceFilter} onChange={handleOnChangeMaxPrice}/>
+              </div>
+
               <div className="flex items-center gap-2">
                 <Select
                   defaultValue="all"
@@ -232,6 +269,7 @@ const HomePage = () => {
                   </SelectContent>
                 </Select>
               </div>
+              
               {/* <div className="flex items-center gap-2">
                 <Select defaultValue="any">
                   <SelectTrigger className="w-[180px]">
@@ -246,7 +284,7 @@ const HomePage = () => {
                 </Select>
               </div> */}
               <Button variant="outline" size="icon" className="shrink-0">
-                <Filter className="h-4 w-4" />
+                <Filter className="h-4 w-4" onClick={handleClickFilter} />
               </Button>
             </div>
           </div>
@@ -293,13 +331,19 @@ const HomePage = () => {
                   <CardContent className="pt-4 text-center">
                     <CardTitle>{tutor.fullname}</CardTitle>
                     <CardDescription>
-                      {tutor.skills.map((skill, index) => {
-                        var st = skill.name;
-                        if (index < tutor.skills.length - 1) {
-                          st += " | ";
-                        }
-                        return st;
-                      })}
+                      <div>
+                        {tutor.skills.map((skill, index) => {
+                          var st = skill.name;
+                          if (index < tutor.skills.length - 1) {
+                            st += " | ";
+                          }
+                          return st;
+                        })}
+                      </div>
+
+                      <div>
+                        Hourly Rate: {tutor.hourlyRate}
+                      </div>
                     </CardDescription>
                     {/* <div className="flex items-center justify-center mt-2 gap-1">
                       <Star className="h-4 w-4 fill-primary text-primary" />
