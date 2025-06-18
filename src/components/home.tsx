@@ -50,6 +50,8 @@ export interface ITutor {
   fullname: string
   skills: ISkill[]
   hourlyRate: number
+  avatarUrl: string
+  ratingAverage?: number
 }
 
 
@@ -154,7 +156,7 @@ const HomePage = () => {
     }
   }
 
-  const handleClickFilter = () => {
+  const handleOnClickFilter = () => {
     const filterQuery = `search=${searchFilter}&skillCategory=${skillCategoryFilter}&minPrice=${minPriceFilter}&maxPrice=${maxPriceFilter}`;
 
     async function fetchTutorsFiltered() {
@@ -172,6 +174,10 @@ const HomePage = () => {
   // const handleOnClickSearch = () => {
   //   setSearchFilter(searchInput);
   // }
+
+  const handleOnClickReview = () => {
+    navigate('/student/review');
+  }
 
   return (
     <div className="min-h-screen bg-background">
@@ -280,7 +286,7 @@ const HomePage = () => {
                 </Select>
               </div> */}
               <Button variant="outline" size="icon" className="shrink-0">
-                <Filter className="h-4 w-4" onClick={handleClickFilter} />
+                <Filter className="h-4 w-4" onClick={handleOnClickFilter} />
               </Button>
             </div>
           </div>
@@ -339,6 +345,10 @@ const HomePage = () => {
 
                       <div>
                         Hourly Rate: {tutor.hourlyRate}
+                      </div>
+
+                      <div>
+                        Rating: {tutor.ratingAverage ? tutor.ratingAverage : 0}
                       </div>
                     </CardDescription>
                     {/* <div className="flex items-center justify-center mt-2 gap-1">
@@ -408,6 +418,8 @@ const HomePage = () => {
               </div>
             </CardContent>
           </Card>
+
+          <Button className="mt-6" onClick={handleOnClickReview}>Let's Review some tutors !</Button>
         </div>
       </main>
 

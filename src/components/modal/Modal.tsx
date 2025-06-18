@@ -8,11 +8,14 @@ interface Props {
   title: string
   description?: ReactElement | string
   body: ReactElement
+  isOpen: boolean
+  setIsOpen: (isOpen: boolean) => void
+  handleOnClose: () => void
 }
 
-export const CertificatesModal = ({ trigger, title, description, body } : Props) => {
+export const Modal = ({ isOpen, setIsOpen, handleOnClose, trigger, title, description, body } : Props) => {
     return (
-        <Dialog>
+        <Dialog open={isOpen} onOpenChange={setIsOpen}>
             <DialogTrigger asChild>
                 {trigger}
             </DialogTrigger>
@@ -29,11 +32,12 @@ export const CertificatesModal = ({ trigger, title, description, body } : Props)
                     : null
                 }
                     {body}
-                <DialogClose asChild>
-                    <Button variant='ghost' className='rounded-full h-[35px] w-[35px] inline-flex items-center justify-center absolute top-[20px] right-[20px]' aria-label="Close">
-                    <X/>
+
+                {/* <DialogClose asChild> */}
+                    <Button onClick={handleOnClose} variant='ghost' className='rounded-full inline-flex items-center justify-center absolute top-[20px] right-[20px]' aria-label="Close">
+                        <X/>
                     </Button>
-                </DialogClose>
+                {/* </DialogClose>  */}
                 </DialogContent>
             </DialogPortal>
         </Dialog>

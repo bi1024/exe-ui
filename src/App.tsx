@@ -27,6 +27,8 @@ import TutorCertificationsPage from "./components/TutorCertificationsPage";
 import Profile from "./pages/common/Profile";
 import TutorsApproval from "./pages/admin/tutors-approval/TutorsApproval";
 import AdminDashboard from "./pages/admin/AdminDashboard";
+import { TutorReview } from "./pages/student/review/TutorReview";
+import { TutorDetails } from "./pages/student/tutorDetails/TutorDetails";
 
 
 function App() {
@@ -89,6 +91,9 @@ function App() {
 
           <Route path="/admin/dashboard" element={<AdminDashboard />} />
           <Route path="/admin/tutors-approval" element={<TutorsApproval />} />
+
+          <Route path="/student/review" element={<TutorReview />} />
+          <Route path="/student/tutor-details/:tutorId" element={<TutorDetails />} />
         </Routes>
 
         {import.meta.env.VITE_TEMPO === "true" && useRoutes(routes)}
