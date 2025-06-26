@@ -1,10 +1,12 @@
 import Calendar from "@/components/calendar/Calendar";
-import Sidebar from "@/pages/tutor/schedule/components/Sidebar";
+import ScheduleSidebar from "@/pages/tutor/schedule/components/ScheduleSidebar";
 import { useEffect, useState } from "react";
 import apiClient from "@/api/apiClient";
 import { ISkill } from "../skills/SkillsList";
 import { useNavigate } from "react-router";
 import { Button } from "@/components/ui/button";
+import CopyWeeksScheduleSidebar from "./components/CopyWeeksScheduleSidebar";
+import CopyMonthsScheduleSidebar from "./components/CopyMonthsScheduleSidebar";
 
 export interface ISlot {
   _id: string;
@@ -31,6 +33,9 @@ export default function EditSlotsForm() {
   const [slots, setSlots] = useState<ISlot[]>([]);
   const [selectedSlot, setSelectedSlot] = useState<ISlot>(null);
 
+  const [showCopyWeeksScheduleSidebar, setShowCopyWeeksScheduleSidebar] = useState<boolean>(false);
+  const [showCopyMonthsScheduleSidebar, setShowCopyMonthsScheduleSidebar] = useState<boolean>(false);
+
   const [skills, setSkills] = useState<ISkill[]>();
 
   useEffect(() => {
@@ -47,7 +52,6 @@ export default function EditSlotsForm() {
     async function fetchSlots() {
       try {
         const response = await apiClient.get("/tutor/schedules");
-
         const slots = response.data as ISlotReturned[];
         const slotsFormatted = slots.map((slot) => ({
           ...slot,
@@ -65,6 +69,14 @@ export default function EditSlotsForm() {
 
   function toggleOffCanvas() {
     setShowOffCanvas(!showOffCanvas);
+  }
+
+  function toogleCopyWeeksScheduleSidebar() {
+    setShowCopyWeeksScheduleSidebar(!showCopyWeeksScheduleSidebar);
+  }
+
+  function toogleCopyMonthsScheduleSidebar() {
+    setShowCopyMonthsScheduleSidebar(!showCopyMonthsScheduleSidebar);
   }
 
   async function handleAddSlot(slotAdded: ISlotAdded) {
@@ -140,8 +152,25 @@ export default function EditSlotsForm() {
         >
           Back
         </Button>
+        <Button
+          className="bg-[#358EDD] border-0 p-2.5 cursor-pointer text-white mx-2"
+          onClick={() => {
+            toogleCopyWeeksScheduleSidebar();
+          }}
+        >
+          Copy weeks schedule
+        </Button>
+
+        <Button
+          className="bg-[#358EDD] border-0 p-2.5 cursor-pointer text-white mx-2"
+          onClick={() => {
+            toogleCopyMonthsScheduleSidebar();
+          }}
+        >
+          Copy months schedule
+        </Button>
       </div>
-      <Sidebar
+      <ScheduleSidebar
         show={showOffCanvas}
         onHide={() => setShowOffCanvas(false)}
         onAddSlot={handleAddSlot}
@@ -151,6 +180,16 @@ export default function EditSlotsForm() {
         skills={skills}
       />
       <Calendar slots={slots} handleSelectSlot={handleSelectSlot} />
+
+      <CopyWeeksScheduleSidebar
+        show={showCopyWeeksScheduleSidebar}
+        onHide={() => setShowCopyWeeksScheduleSidebar(false)}
+      />
+
+      <CopyMonthsScheduleSidebar
+        show={showCopyMonthsScheduleSidebar}
+        onHide={() => setShowCopyMonthsScheduleSidebar(false)}
+      />
     </div>
   );
 }
