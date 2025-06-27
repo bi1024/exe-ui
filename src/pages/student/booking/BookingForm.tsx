@@ -75,120 +75,130 @@ export default function BookingForm() {
     setShowOffCanvas(true);
   }
 
+  function handleOnClickViewTutorDetails() {
+    navigate(`/student/tutor-details/${tutorId}`);
+  }
+
   return (
-    <div className="p-5">
+    <div className="p-5 flex flex-col gap-4">
       <Sidebar
         show={showOffCanvas}
         onHide={() => setShowOffCanvas(false)}
         selectedSlot={selectedSlot}
       />
-      <Button
-        onClick={() => {
-          navigate("/");
-        }}
-      >
-        Back
-      </Button>
-      <Calendar slots={slots} handleSelectSlot={handleSelectSlot} />
-
-      <div className="min-h-screen bg-gray-50 p-6">
-        <div className="max-w-4xl mx-auto space-y-6">
-          {/* Header */}
-          <div className="flex items-center justify-between">
-            <h1 className="text-3xl font-bold text-gray-900">Profile</h1>
-          </div>
-
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            {/* Profile Card */}
-            <div className="lg:col-span-1">
-              <Card>
-                <CardHeader className="text-center">
-                  <Avatar className="w-24 h-24 mx-auto mb-4 ">
-                    <AvatarImage
-                      className="w-full h-full object-cover"
-                      src={profile?.avatarUrl}
-                    />
-                    <AvatarFallback>{profile?.fullname}</AvatarFallback>
-                  </Avatar>
-
-                  <CardTitle className="text-xl">{profile?.fullname}</CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                  <div className="flex items-center space-x-2">
-                    <Mail className="w-4 h-4 text-gray-500" />
-                    {/* {isEditing ? (
-                          <Input
-                          value={profile.email}
-                          onChange={(e) =>
-                          setProfile({ ...profile, email: e.target.value })
-                          }
-                          type="email"
-                          />
-                          ) : ( */}
-                    <span className="text-sm text-gray-600">
-                      {profile?.email}
-                    </span>
-                  </div>
-
-                  <div className="flex items-center space-x-2">
-                    <CalendarIcon className="w-4 h-4 text-gray-500" />
-                    <span className="text-sm text-gray-600">
-                      Joined {profile?.createdAt}
-                    </span>
-                  </div>
-                </CardContent>
-              </Card>
-            </div>
-
-            {/* Main Content */}
-            <div className="lg:col-span-2 space-y-6">
-              {/* Bio Section */}
-              <Card>
-                <CardHeader>
-                  <CardTitle>About Me</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-gray-600">{profile?.bio}</p>
-                </CardContent>
-              </Card>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {certifications?.map((cert) => (
-        <div
-          key={cert._id}
-          className="min-w-[200px] bg-white rounded-xl shadow p-4 flex-shrink-0"
+      <div className="flex flex-row gap-2">
+        <Button
+          onClick={() => {
+            navigate("/");
+          }}
         >
-          <h3 className="font-semibold text-sm mb-1">{cert.name}</h3>
-          <p className="text-xs text-muted-foreground mb-2">
-            {cert.description}
-          </p>
-          <p className="text-xs text-muted-foreground mb-2">
-            {cert?.skill?.name}
-          </p>
+          Back
+        </Button>
 
-          <Dialog>
-            <DialogTrigger asChild>
-              <Button
-                variant="outline"
-                className="text-xs"
-                onClick={() => setShowingImage(cert.imageUrl)}
-              >
-                View Image
-              </Button>
-            </DialogTrigger>
-            <DialogContent className="max-w-lg">
-              <img
-                src={showingImage ?? ""}
-                alt="Certification"
-                className="w-full h-auto rounded"
-              />
-            </DialogContent>
-          </Dialog>
-        </div>
-      ))}
+        <Button onClick={handleOnClickViewTutorDetails}>
+          View Tutor Details
+        </Button>
+      </div>
+      <Calendar slots={slots} handleSelectSlot={handleSelectSlot} />
     </div>
   );
 }
+
+      // <div className="min-h-screen bg-gray-50 p-6">
+      //   <div className="max-w-4xl mx-auto space-y-6">
+      //     {/* Header */}
+      //     <div className="flex items-center justify-between">
+      //       <h1 className="text-3xl font-bold text-gray-900">Profile</h1>
+      //     </div>
+
+      //     <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      //       {/* Profile Card */}
+      //       <div className="lg:col-span-1">
+      //         <Card>
+      //           <CardHeader className="text-center">
+      //             <Avatar className="w-24 h-24 mx-auto mb-4 ">
+      //               <AvatarImage
+      //                 className="w-full h-full object-cover"
+      //                 src={profile?.avatarUrl}
+      //               />
+      //               <AvatarFallback>{profile?.fullname}</AvatarFallback>
+      //             </Avatar>
+
+      //             <CardTitle className="text-xl">{profile?.fullname}</CardTitle>
+      //           </CardHeader>
+      //           <CardContent className="space-y-4">
+      //             <div className="flex items-center space-x-2">
+      //               <Mail className="w-4 h-4 text-gray-500" />
+      //               {/* {isEditing ? (
+      //                     <Input
+      //                     value={profile.email}
+      //                     onChange={(e) =>
+      //                     setProfile({ ...profile, email: e.target.value })
+      //                     }
+      //                     type="email"
+      //                     />
+      //                     ) : ( */}
+      //               <span className="text-sm text-gray-600">
+      //                 {profile?.email}
+      //               </span>
+      //             </div>
+
+      //             <div className="flex items-center space-x-2">
+      //               <CalendarIcon className="w-4 h-4 text-gray-500" />
+      //               <span className="text-sm text-gray-600">
+      //                 Joined {profile?.createdAt}
+      //               </span>
+      //             </div>
+      //           </CardContent>
+      //         </Card>
+      //       </div>
+
+      //       {/* Main Content */}
+      //       <div className="lg:col-span-2 space-y-6">
+      //         {/* Bio Section */}
+      //         <Card>
+      //           <CardHeader>
+      //             <CardTitle>About Me</CardTitle>
+      //           </CardHeader>
+      //           <CardContent>
+      //             <p className="text-gray-600">{profile?.bio}</p>
+      //           </CardContent>
+      //         </Card>
+      //       </div>
+      //     </div>
+      //   </div>
+      // </div>
+
+      // {certifications?.map((cert) => (
+      //   <div
+      //     key={cert._id}
+      //     className="min-w-[200px] bg-white rounded-xl shadow p-4 flex-shrink-0"
+      //   >
+      //     <h3 className="font-semibold text-sm mb-1">{cert.name}</h3>
+      //     <p className="text-xs text-muted-foreground mb-2">
+      //       {cert.description}
+      //     </p>
+      //     <p className="text-xs text-muted-foreground mb-2">
+      //       {cert?.skill?.name}
+      //     </p>
+
+      //     <Dialog>
+      //       <DialogTrigger asChild>
+      //         <Button
+      //           variant="outline"
+      //           className="text-xs"
+      //           onClick={() => setShowingImage(cert.imageUrl)}
+      //         >
+      //           View Image
+      //         </Button>
+      //       </DialogTrigger>
+      //       <DialogContent className="max-w-lg">
+      //         <img
+      //           src={showingImage ?? ""}
+      //           alt="Certification"
+      //           className="w-full h-auto rounded"
+      //         />
+      //       </DialogContent>
+      //     </Dialog>
+      //   </div>
+      // ))}

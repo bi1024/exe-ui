@@ -18,7 +18,7 @@ import {
 } from "@/components/ui/table";
 import { Eye } from "lucide-react";
 import { useEffect, useState } from "react";
-import { CertificatesModal } from "../components/CertificatesModal";
+import { Modal } from "../../../components/modal/Modal";
 import { Dialog, DialogContent, DialogOverlay, DialogPortal, DialogTrigger } from "@/components/ui/dialog";
 
 export interface ICert {
@@ -27,6 +27,9 @@ export interface ICert {
     name: string;
     description: string;
     imageUrl: string;
+    skill?: {
+        name: string
+    }
 }
 
 interface ITutor {
@@ -43,6 +46,7 @@ const TutorsApproval = () => {
 
     const [tutorsPending, setTutorsPending] = useState<ITutor[]>([]);
     const [showingImage, setShowingImage] = useState<string | null>(null);
+    const [isOpen, setIsOpen] = useState<boolean>(false);
 
     useEffect(() => {
         async function fetchTutorsPending() {
@@ -70,7 +74,11 @@ const TutorsApproval = () => {
         // console.log(_id);
         // setCertifications(certifications.filter((e) => e._id !== _id));
         // const result = await apiClient.delete(`/tutor/certs/${_id}`);
-  };
+    };
+
+    function handleOnClose() {
+        setIsOpen(false);
+    }
 
     function renderCertifications(certifications : ICert[]) {
         return (
@@ -148,7 +156,7 @@ const TutorsApproval = () => {
                                 <TableCell>{tutor.phone}</TableCell>
                                 <TableCell>{tutor.hourlyRate}</TableCell>
                                 <TableCell>
-                                    <CertificatesModal
+                                    <Modal
                                         trigger={
                                             <Button variant="ghost">
                                                 <Eye/>
@@ -158,6 +166,9 @@ const TutorsApproval = () => {
                                         body={
                                             renderCertifications(tutor.certifications)
                                         }
+                                        isOpen={isOpen}
+                                        setIsOpen={setIsOpen}
+                                        handleOnClose={handleOnClose}
                                     />
                                 </TableCell>
                                 <TableCell className="w-2">
