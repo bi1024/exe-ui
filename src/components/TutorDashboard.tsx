@@ -19,15 +19,14 @@ const TutorDashboard = () => {
   const navigate = useNavigate();
 
   const user = useSelector((state: RootState) => state.auth.user);
-  if(!user || user.role !== 'tutor') {
-    navigate('/login');
-  } else if(user.status === 'pending') {
-    return (
-      <Header />
-    )
+  if (!user || user.role !== "tutor") {
+    navigate("/login");
+  } else if (user.status === "pending") {
+    return <Header />;
   }
 
   const [upcomingLessons, setUpcomingLessons] = useState([]);
+  const [tutorProfile, setTutorProfile] = useState<any>({});
 
   useEffect(() => {
     async function fetchSchedules() {
@@ -41,6 +40,19 @@ const TutorDashboard = () => {
         console.log(err);
       }
     }
+
+    const fetchTutor = async () => {
+      try {
+        const response = await apiClient.get("/profile/myProfile");
+        console.log("res", response.data);
+        setTutorProfile(response.data);
+        // setUpcomingLessons(response.data);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+
+    fetchTutor();
 
     fetchSchedules();
   }, []);
@@ -125,6 +137,21 @@ const TutorDashboard = () => {
           </Card> */}
 
           {/* Upcoming Lessons */}
+          <div className="mb-4 flex flex-row gap-4">
+            <Card className="w-[100%] shadow-md border border-gray-200 bg-white rounded-2xl">
+              <CardHeader>
+                <CardTitle className="text-lg font-semibold text-gray-700">
+                  Balance
+                </CardTitle>
+              </CardHeader>
+
+              <CardContent>
+                <div className="text-right text-2xl font-bold text-green-600">
+                  {tutorProfile.accountBalance}
+                </div>
+              </CardContent>
+            </Card>
+          </div>
           <Card className="lg:col-span-2">
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
