@@ -1,4 +1,12 @@
-import { Edit, Mail, Phone, MapPin, Calendar, BookOpen } from "lucide-react";
+import {
+  Edit,
+  Mail,
+  Phone,
+  MapPin,
+  Calendar,
+  BookOpen,
+  ReceiptText,
+} from "lucide-react";
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -9,6 +17,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import UserHeader from "@/components/UserHeader";
 import { Badge } from "@/components/ui/badge";
 import apiClient from "@/api/apiClient";
+import { Link } from "react-router-dom";
 
 export default function Profile() {
   const [isEditing, setIsEditing] = useState(false);
@@ -70,17 +79,28 @@ export default function Profile() {
           {/* Header */}
           <div className="flex items-center justify-between">
             <h1 className="text-3xl font-bold text-gray-900">Profile</h1>
-            <Button
-              onClick={() => {
-                setOriginalProfile(profile);
+            <div className="flex items-center justify-between gap-2">
+              <Button
+                onClick={() => {
+                  setOriginalProfile(profile);
 
-                setIsEditing(!isEditing);
-              }}
-              variant={isEditing ? "outline" : "default"}
-            >
-              <Edit className="w-4 h-4 mr-2" />
-              {isEditing ? "Cancel" : "Edit Profile"}
-            </Button>
+                  setIsEditing(!isEditing);
+                }}
+                variant={isEditing ? "outline" : "default"}
+              >
+                <Edit />
+                {isEditing ? "Cancel" : "Edit Profile"}
+              </Button>
+              <Link
+                to="/receipts"
+                className="text-xl font-bold h-full flex items-center"
+              >
+                <Button>
+                  <ReceiptText className="w-4 h-4 mr-2" />
+                  Receipts
+                </Button>
+              </Link>
+            </div>
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">

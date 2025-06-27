@@ -17,8 +17,14 @@ const UserHeader = () => {
     <header className="sticky top-0 z-10 border-b bg-background/95 backdrop-blur">
       <div className="container flex h-16 items-center justify-between">
         <div className="flex items-center gap-6">
-          <Link to="/" className="text-xl font-bold">
-            SkillFlow
+          <Link to="/" className="text-xl font-bold h-full flex items-center">
+            {/* SkillFlow */}
+            <img
+              className="h-full object-contain" // Added h-full and object-contain
+              style={{ maxHeight: "50px", width: "auto" }}
+              src="https://res.cloudinary.com/dsvllb1am/image/upload/v1750778951/xanh_k4vpgg.png"
+              alt="Girl in a jacket"
+            />
           </Link>
           <nav className="hidden md:flex items-center gap-6">
             {/* <Link to="/" className="text-sm font-medium">

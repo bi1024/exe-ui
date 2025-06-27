@@ -11,6 +11,7 @@ export default function AdminDashboard() {
   const navigate = useNavigate();
   const [trafficData, setTrafficData] = useState([]);
   const [userData, setUserData] = useState([]);
+  const [profit, setProfit] = useState(0);
 
   function handleClickApproveTutors() {
     navigate("/admin/tutors-approval");
@@ -27,8 +28,16 @@ export default function AdminDashboard() {
       console.log(response.data);
       setUserData(response.data);
     };
+    const getProfitCount = async () => {
+      const response = await apiClient.get("/utility/profit-count");
+      console.log(response.data);
+      // const [result] = response.data;
+      // console.log(result.totalAmount);
+      setProfit(response.data);
+    };
     getDailyTraffic();
     getDailyUserAggregate();
+    getProfitCount();
   }, []);
 
   return (
@@ -50,11 +59,26 @@ export default function AdminDashboard() {
           </Card>
           <Card className="w-1/2 ">
             <CardHeader>
-              <CardTitle>Account count</CardTitle>
+              <CardTitle>Account signups</CardTitle>
             </CardHeader>
 
             <CardContent>
               <UserChart userData={userData} />
+            </CardContent>
+          </Card>
+        </div>
+        <div className="mb-4 flex flex-row gap-4">
+          <Card className="w-1/2 shadow-md border border-gray-200 bg-white rounded-2xl">
+            <CardHeader>
+              <CardTitle className="text-lg font-semibold text-gray-700">
+                Profit
+              </CardTitle>
+            </CardHeader>
+
+            <CardContent>
+              <div className="text-right text-2xl font-bold text-green-600">
+                {profit}
+              </div>
             </CardContent>
           </Card>
         </div>

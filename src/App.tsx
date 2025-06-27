@@ -27,7 +27,7 @@ import TutorCertificationsPage from "./components/TutorCertificationsPage";
 import Profile from "./pages/common/Profile";
 import TutorsApproval from "./pages/admin/tutors-approval/TutorsApproval";
 import AdminDashboard from "./pages/admin/AdminDashboard";
-
+import ReceiptsPage from "./components/ReceiptsPage";
 
 function App() {
   const dispatch = useDispatch();
@@ -57,6 +57,7 @@ function App() {
           <Route path="/profile" element={<Profile />} />
           <Route path="/lesson/:lessonId" element={<LessonInfoPage />} />
           <Route path="/payment/:lessonId" element={<PaymentPage />} />
+          <Route path="/receipts" element={<ReceiptsPage />} />
           <Route
             path="/payment-confirmation"
             element={<PaymentConfirmationPage />}
@@ -85,7 +86,7 @@ function App() {
           <Route path="/start-meeting" element={<StartMeetingPage />} />
           <Route path="/room/:id" element={<Room />} />
 
-          { /* Routes for Admin pages */ }
+          {/* Routes for Admin pages */}
 
           <Route path="/admin/dashboard" element={<AdminDashboard />} />
           <Route path="/admin/tutors-approval" element={<TutorsApproval />} />
