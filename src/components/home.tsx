@@ -96,7 +96,6 @@ const HomePage = () => {
     async function fetchSchedules() {
       try {
         const response = await apiClient.get("/tutor/schedules/schedule-today");
-        console.log(response.data);
         setSchedules(response.data);
       } catch (err) {
         console.log(err);
