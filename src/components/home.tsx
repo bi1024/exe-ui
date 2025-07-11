@@ -29,6 +29,7 @@ import {
   Calendar,
   MessageSquare,
   Video,
+  MessageCircle,
 } from "lucide-react";
 import TeacherGrid from "./TeacherGrid";
 import { useDispatch, useSelector } from "react-redux";
@@ -43,6 +44,7 @@ import UserHeader from "./UserHeader";
 import { skills } from "@/pages/tutor/skills/AddSkillForm";
 import { ISkill } from "@/pages/tutor/skills/SkillsList";
 import HeroSearch from "./HeroSearch";
+import ChatBotSection from "./chatbot/ChatBotSection";
 
 export interface ITutor {
   _id: string;
@@ -125,7 +127,8 @@ function FeaturesSection() {
           <div className="md:w-1/2 text-center md:text-left">
             <h2 className="text-4xl font-bold mb-4">1. Find Your Teacher</h2>
             <p className="text-muted-foreground mb-6 text-lg">
-              Browse tutor profiles, read reviews, and find the perfect teacher for your learning goals.
+              Browse tutor profiles, read reviews, and find the perfect teacher
+              for your learning goals.
             </p>
             {/* <Button asChild>
               <Link to="/teachers">Find Now</Link>
@@ -145,7 +148,8 @@ function FeaturesSection() {
           <div className="md:w-1/2 text-center md:text-left">
             <h2 className="text-4xl font-bold mb-4">2. Book a Lesson</h2>
             <p className="text-muted-foreground mb-6 text-lg">
-              Pick a time that works for you and reserve your lesson in seconds with secure payments.
+              Pick a time that works for you and reserve your lesson in seconds
+              with secure payments.
             </p>
             {/* <Button asChild>
               <Link to="/schedule">Book a Lesson</Link>
@@ -165,7 +169,8 @@ function FeaturesSection() {
           <div className="md:w-1/2 text-center md:text-left">
             <h2 className="text-4xl font-bold mb-4">3. Start Learning</h2>
             <p className="text-muted-foreground mb-6 text-lg">
-              Join your video class, talk to your teacher, and improve your skills anytime, anywhere.
+              Join your video class, talk to your teacher, and improve your
+              skills anytime, anywhere.
             </p>
             {/* <Button asChild>
               <Link to="/signup">Get Started</Link>
@@ -174,7 +179,7 @@ function FeaturesSection() {
         </div>
       </section>
     </div>
-  )
+  );
 }
 
 function BecomeTutorSection() {
@@ -190,12 +195,13 @@ function BecomeTutorSection() {
       </div>
 
       {/* Right: Content with gradient background */}
-      <div
-        className="md:w-1/2 w-full text-white p-8 flex flex-col justify-center bg-gradient-to-r from-[#3453B6] to-[#a5b4fc]"
-      >
-        <h2 className="text-4xl font-bold mb-4 leading-tight">Become a Tutor</h2>
+      <div className="md:w-1/2 w-full text-white p-8 flex flex-col justify-center bg-gradient-to-r from-[#3453B6] to-[#a5b4fc]">
+        <h2 className="text-4xl font-bold mb-4 leading-tight">
+          Become a Tutor
+        </h2>
         <p className="mb-6 text-lg">
-          Share your expertise and teach students around the world. Join our platform and start tutoring online easily.
+          Share your expertise and teach students around the world. Join our
+          platform and start tutoring online easily.
         </p>
 
         <ul className="list-disc list-inside space-y-2 font-medium">
@@ -213,7 +219,7 @@ function BecomeTutorSection() {
         </Button>
       </div>
     </section>
-  )
+  );
 }
 
 interface Review {
@@ -228,8 +234,7 @@ const reviews: Review[] = [
   {
     id: 1,
     teacherName: "Ms. Emma Johnson",
-    teacherImage:
-      "https://randomuser.me/api/portraits/women/44.jpg",
+    teacherImage: "https://randomuser.me/api/portraits/women/44.jpg",
     rating: 5,
     comment:
       "Ms. Emma is amazing! She made grammar so easy to understand. Highly recommend her!",
@@ -237,8 +242,7 @@ const reviews: Review[] = [
   {
     id: 2,
     teacherName: "Mr. Daniel Tran",
-    teacherImage:
-      "https://randomuser.me/api/portraits/men/32.jpg",
+    teacherImage: "https://randomuser.me/api/portraits/men/32.jpg",
     rating: 4,
     comment:
       "Great at explaining tough math concepts. My test scores improved thanks to him.",
@@ -246,8 +250,7 @@ const reviews: Review[] = [
   {
     id: 3,
     teacherName: "Ms. Sophia Lee",
-    teacherImage:
-      "https://randomuser.me/api/portraits/women/65.jpg",
+    teacherImage: "https://randomuser.me/api/portraits/women/65.jpg",
     rating: 5,
     comment:
       "Very kind and patient. My speaking skills have grown so much through our lessons.",
@@ -258,7 +261,9 @@ function TeacherReviewsSection() {
   return (
     <section className="py-16 bg-muted/30">
       <div className="container px-4 md:px-6 text-center">
-        <h2 className="text-3xl md:text-4xl font-bold mb-6">What Students Say</h2>
+        <h2 className="text-3xl md:text-4xl font-bold mb-6">
+          What Students Say
+        </h2>
         <p className="text-muted-foreground mb-12 max-w-2xl mx-auto">
           Feedback from students who learned with top-rated teachers
         </p>
@@ -274,7 +279,9 @@ function TeacherReviewsSection() {
                 alt={review.teacherName}
                 className="w-20 h-20 rounded-full object-cover mx-auto mb-4 border-4 border-primary"
               />
-              <h3 className="text-lg font-semibold mb-1">{review.teacherName}</h3>
+              <h3 className="text-lg font-semibold mb-1">
+                {review.teacherName}
+              </h3>
 
               {/* Stars */}
               <div className="flex justify-center mb-3">
@@ -290,7 +297,9 @@ function TeacherReviewsSection() {
                 ))}
               </div>
 
-              <p className="text-muted-foreground italic text-sm">"{review.comment}"</p>
+              <p className="text-muted-foreground italic text-sm">
+                "{review.comment}"
+              </p>
             </div>
           ))}
         </div>
@@ -592,6 +601,7 @@ const HomePage = () => {
           </div>
         </div>
       </footer>
+      <ChatBotSection />
     </div>
   );
 };
