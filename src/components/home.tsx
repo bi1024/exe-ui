@@ -29,6 +29,7 @@ import {
   Calendar,
   MessageSquare,
   Video,
+  MessageCircle,
 } from "lucide-react";
 import TeacherGrid from "./TeacherGrid";
 import { useDispatch, useSelector } from "react-redux";
@@ -42,18 +43,269 @@ import UserHeader from "./UserHeader";
 
 import { skills } from "@/pages/tutor/skills/AddSkillForm";
 import { ISkill } from "@/pages/tutor/skills/SkillsList";
+import HeroSearch from "./HeroSearch";
+import ChatBotSection from "./chatbot/ChatBotSection";
 
 export interface ITutor {
+  _id: string;
+  image?: string;
+  username: string;
+  fullname: string;
+  skills: ISkill[] | { name: string }[];
+  hourlyRate: number;
+  avatarUrl: string;
+  ratingAverage?: number;
+}
 
-  _id: string
-  image?: string
-  username: string
-  fullname: string
-  skills: ISkill[]
-  hourlyRate: number
-  avatarUrl: string
-  ratingAverage?: number
+function IntroSection() {
+  return (
+    <section className="py-12 md:py-24 lg:py-32 bg-gradient-to-b from-background to-muted/30">
+      <div className="container px-4 md:px-6">
+        <div className="grid gap-6 lg:grid-cols-2 lg:gap-12 items-center">
+          <div className="flex flex-col justify-center space-y-4">
+            <div className="space-y-2">
+              <h1 className="text-3xl font-bold tracking-tighter sm:text-5xl xl:text-6xl/none">
+                Learn From Expert Teachers Anytime, Anywhere
+              </h1>
+              <p className="max-w-[600px] text-muted-foreground md:text-xl">
+                Book personalized lessons, chat with teachers, and join video
+                classes all in one platform.
+              </p>
+            </div>
+            <div className="flex flex-col gap-2 min-[400px]:flex-row">
+              <Link to="/teachers">
+                <Button size="lg" className="gap-2">
+                  Find Teachers
+                </Button>
+              </Link>
+              <a href="#how-it-works">
+                <Button size="lg" variant="outline">
+                  How It Works
+                </Button>
+              </a>
+            </div>
+          </div>
+          <div className="mx-auto lg:mx-0 relative">
+            <img
+              src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=800&q=80"
+              alt="Students learning online"
+              className="mx-auto aspect-video overflow-hidden rounded-xl object-cover sm:w-full lg:order-last"
+              width="550"
+              height="310"
+            />
+            <div className="absolute -bottom-6 -right-6 bg-background rounded-lg shadow-lg p-4 hidden md:block">
+              <div className="flex items-center gap-2">
+                <Video className="h-5 w-5 text-primary" />
+                <span className="font-medium">Live Video Lessons</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
 
+function FeaturesSection() {
+  return (
+    <div className="bg-background">
+      {/* Hero Section */}
+      <section className="py-4 px-4 text-center">
+        <h2 className="text-4xl md:text-6xl font-bold mb-6" id="how-it-works">
+          How Skill Flow Works
+        </h2>
+      </section>
+
+      {/* Step 1: Find Your Teacher */}
+      <section className="bg-muted/40 py-16">
+        <div className="container flex flex-col md:flex-row items-center gap-10">
+          <img
+            src="./find_teacher.png"
+            alt="Find Your Teacher"
+            className="w-full md:w-1/2 max-w-md hover:scale-105 transition-transform duration-300"
+          />
+          <div className="md:w-1/2 text-center md:text-left">
+            <h2 className="text-4xl font-bold mb-4">1. Find Your Teacher</h2>
+            <p className="text-muted-foreground mb-6 text-lg">
+              Browse tutor profiles, read reviews, and find the perfect teacher
+              for your learning goals.
+            </p>
+            {/* <Button asChild>
+              <Link to="/teachers">Find Now</Link>
+            </Button> */}
+          </div>
+        </div>
+      </section>
+
+      {/* Step 2: Book a Lesson */}
+      <section className="bg-background py-16">
+        <div className="container flex flex-col md:flex-row-reverse items-center gap-10">
+          <img
+            src="./book_lesson.png"
+            alt="Book a Lesson"
+            className="w-full md:w-1/2 max-w-md hover:scale-105 transition-transform duration-300"
+          />
+          <div className="md:w-1/2 text-center md:text-left">
+            <h2 className="text-4xl font-bold mb-4">2. Book a Lesson</h2>
+            <p className="text-muted-foreground mb-6 text-lg">
+              Pick a time that works for you and reserve your lesson in seconds
+              with secure payments.
+            </p>
+            {/* <Button asChild>
+              <Link to="/schedule">Book a Lesson</Link>
+            </Button> */}
+          </div>
+        </div>
+      </section>
+
+      {/* Step 3: Start Learning */}
+      <section className="bg-muted/40 py-16">
+        <div className="container flex flex-col md:flex-row items-center gap-10">
+          <img
+            src="./start_learning.png"
+            alt="Start Learning"
+            className="w-full md:w-1/2 max-w-md hover:scale-105 transition-transform duration-300"
+          />
+          <div className="md:w-1/2 text-center md:text-left">
+            <h2 className="text-4xl font-bold mb-4">3. Start Learning</h2>
+            <p className="text-muted-foreground mb-6 text-lg">
+              Join your video class, talk to your teacher, and improve your
+              skills anytime, anywhere.
+            </p>
+            {/* <Button asChild>
+              <Link to="/signup">Get Started</Link>
+            </Button> */}
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+}
+
+function BecomeTutorSection() {
+  return (
+    <section className="w-full flex flex-col md:flex-row border rounded-lg overflow-hidden shadow-lg my-12">
+      {/* Left: Image */}
+      <div className="md:w-1/2 w-full h-80 md:h-auto">
+        <img
+          src="./become_tutor.png"
+          alt="Tutor"
+          className="object-cover w-full h-full"
+        />
+      </div>
+
+      {/* Right: Content with gradient background */}
+      <div className="md:w-1/2 w-full text-white p-8 flex flex-col justify-center bg-gradient-to-r from-[#3453B6] to-[#a5b4fc]">
+        <h2 className="text-4xl font-bold mb-4 leading-tight">
+          Become a Tutor
+        </h2>
+        <p className="mb-6 text-lg">
+          Share your expertise and teach students around the world. Join our
+          platform and start tutoring online easily.
+        </p>
+
+        <ul className="list-disc list-inside space-y-2 font-medium">
+          <li>Reach new students</li>
+          <li>Grow your personal brand</li>
+          <li>Get paid securely</li>
+        </ul>
+
+        <Button
+          size="lg"
+          className="mt-6 bg-white text-[#3453B6] hover:bg-gray-100 font-bold"
+          asChild
+        >
+          <Link to="/register">Become a Tutor</Link>
+        </Button>
+      </div>
+    </section>
+  );
+}
+
+interface Review {
+  id: number;
+  teacherName: string;
+  teacherImage: string;
+  rating: number;
+  comment: string;
+}
+
+const reviews: Review[] = [
+  {
+    id: 1,
+    teacherName: "Ms. Emma Johnson",
+    teacherImage: "https://randomuser.me/api/portraits/women/44.jpg",
+    rating: 5,
+    comment:
+      "Ms. Emma is amazing! She made grammar so easy to understand. Highly recommend her!",
+  },
+  {
+    id: 2,
+    teacherName: "Mr. Daniel Tran",
+    teacherImage: "https://randomuser.me/api/portraits/men/32.jpg",
+    rating: 4,
+    comment:
+      "Great at explaining tough math concepts. My test scores improved thanks to him.",
+  },
+  {
+    id: 3,
+    teacherName: "Ms. Sophia Lee",
+    teacherImage: "https://randomuser.me/api/portraits/women/65.jpg",
+    rating: 5,
+    comment:
+      "Very kind and patient. My speaking skills have grown so much through our lessons.",
+  },
+];
+
+function TeacherReviewsSection() {
+  return (
+    <section className="py-16 bg-muted/30">
+      <div className="container px-4 md:px-6 text-center">
+        <h2 className="text-3xl md:text-4xl font-bold mb-6">
+          What Students Say
+        </h2>
+        <p className="text-muted-foreground mb-12 max-w-2xl mx-auto">
+          Feedback from students who learned with top-rated teachers
+        </p>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          {reviews.map((review) => (
+            <div
+              key={review.id}
+              className="bg-white rounded-xl p-6 shadow hover:shadow-md transition"
+            >
+              <img
+                src={review.teacherImage}
+                alt={review.teacherName}
+                className="w-20 h-20 rounded-full object-cover mx-auto mb-4 border-4 border-primary"
+              />
+              <h3 className="text-lg font-semibold mb-1">
+                {review.teacherName}
+              </h3>
+
+              {/* Stars */}
+              <div className="flex justify-center mb-3">
+                {[...Array(5)].map((_, i) => (
+                  <Star
+                    key={i}
+                    className={`h-5 w-5 ${
+                      i < review.rating
+                        ? "text-yellow-500 fill-yellow-500"
+                        : "text-gray-300"
+                    }`}
+                  />
+                ))}
+              </div>
+
+              <p className="text-muted-foreground italic text-sm">
+                "{review.comment}"
+              </p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
 }
 
 const HomePage = () => {
@@ -96,7 +348,6 @@ const HomePage = () => {
     async function fetchSchedules() {
       try {
         const response = await apiClient.get("/tutor/schedules/schedule-today");
-        console.log(response.data);
         setSchedules(response.data);
       } catch (err) {
         console.log(err);
@@ -116,20 +367,16 @@ const HomePage = () => {
     logVisit();
   }, []);
 
-  // useEffect(() => {
-  //   const filterQuery = `search=${searchFilter}&skillCategory=${skillCategoryFilter}`;
-
-  //   async function fetchTutorsFiltered() {
-  //     try {
-  //       const response = await apiClient.get(`/student/tutors-filter/?${filterQuery}`);
-  //       const tutors = response.data.data;
-  //       setTutors(tutors);
-  //     } catch(err) {
-  //       console.log(err);
-  //     }
-  //   }
-  //   fetchTutorsFiltered();
-  // }, [searchFilter, skillCategoryFilter]);
+  const renderRatingSection = (rating: number) => {
+    const arr = [1, 2, 3, 4, 5];
+    return (
+      <div className="flex flex-row gap-2">
+        {arr.map((e) => (
+          <Star fill={e <= rating ? "yellow" : "white"} />
+        ))}
+      </div>
+    );
+  };
 
   const handleLogout = () => {
     localStorage.removeItem("accessToken");
@@ -142,14 +389,27 @@ const HomePage = () => {
     console.log(result);
   };
 
-  const handleOnChangeCategory = (value: string) => {
+  const handleSkillSelect = (value: string) => {
     setSkillCategoryFilter(value);
+
+    const filterQuery = `skillCategory=${value}`;
+
+    async function fetchTutorsFiltered() {
+      try {
+        const response = await apiClient.get(
+          `/student/tutors-filter/?${filterQuery}`
+        );
+        const tutors = response.data.data;
+        setTutors(tutors);
+      } catch (err) {
+        console.log(err);
+      }
+    }
+    fetchTutorsFiltered();
   };
 
-  const handleOnChangeSearchInput = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    setSearchFilter(event.target.value);
+  const handleSearchChange = (value: string) => {
+    setSearchFilter(value);
   };
 
   const handleOnChangeMinPrice = (
@@ -172,7 +432,7 @@ const HomePage = () => {
     }
   };
 
-  const handleOnClickFilter = () => {
+  const filter = () => {
     const filterQuery = `search=${searchFilter}&skillCategory=${skillCategoryFilter}&minPrice=${minPriceFilter}&maxPrice=${maxPriceFilter}`;
 
     async function fetchTutorsFiltered() {
@@ -189,252 +449,29 @@ const HomePage = () => {
     fetchTutorsFiltered();
   };
 
-  // const handleOnClickSearch = () => {
-  //   setSearchFilter(searchInput);
-  // }
-
   const handleOnClickReview = () => {
-    navigate('/student/review');
-  }
+    navigate("/student/review");
+  };
 
   return (
     <div className="min-h-screen bg-background">
-      {/* Header */}
       <UserHeader />
 
-      {/* Hero Section */}
-      <section className="py-12 md:py-24 lg:py-32 bg-gradient-to-b from-background to-muted/30">
-        {/* <button onClick={handlePost}>TEST API AUTH</button> */}
+      <IntroSection />
 
-        <div className="container px-4 md:px-6">
-          <div className="grid gap-6 lg:grid-cols-2 lg:gap-12 items-center">
-            <div className="flex flex-col justify-center space-y-4">
-              <div className="space-y-2">
-                <h1 className="text-3xl font-bold tracking-tighter sm:text-5xl xl:text-6xl/none">
-                  Learn From Expert Teachers Anytime, Anywhere
-                </h1>
-                <p className="max-w-[600px] text-muted-foreground md:text-xl">
-                  Book personalized lessons, chat with teachers, and join video
-                  classes all in one platform.
-                </p>
-              </div>
-              <div className="flex flex-col gap-2 min-[400px]:flex-row">
-                <Link to="/teachers">
-                  <Button size="lg" className="gap-2">
-                    Find Teachers
-                  </Button>
-                </Link>
-                <Link to="/how-it-works">
-                  <Button size="lg" variant="outline">
-                    How It Works
-                  </Button>
-                </Link>
-              </div>
-            </div>
-            <div className="mx-auto lg:mx-0 relative">
-              <img
-                src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=800&q=80"
-                alt="Students learning online"
-                className="mx-auto aspect-video overflow-hidden rounded-xl object-cover sm:w-full lg:order-last"
-                width="550"
-                height="310"
-              />
-              <div className="absolute -bottom-6 -right-6 bg-background rounded-lg shadow-lg p-4 hidden md:block">
-                <div className="flex items-center gap-2">
-                  <Video className="h-5 w-5 text-primary" />
-                  <span className="font-medium">Live Video Lessons</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Search and Filter Section */}
-      <section className="py-8 border-t border-b bg-muted/30">
-        <div className="container px-4 md:px-6">
-          <div className="flex flex-col md:flex-row gap-4 items-center justify-between">
-            <div className="relative w-full md:w-1/3">
-              <Search
-                className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground cursor-pointer"
-                // onClick={handleOnClickSearch}
-              />
-              <Input
-                placeholder="Search by subject or teacher name"
-                className="pl-10 w-full"
-                onChange={(event) => handleOnChangeSearchInput(event)}
-              />
-            </div>
-            <div className="flex flex-wrap gap-4 w-full md:w-auto">
-              <div className="flex items-center gap-2">
-                Price
-                <Input
-                  placeholder="lowest"
-                  className="w-[25%]"
-                  value={minPriceFilter}
-                  onChange={handleOnChangeMinPrice}
-                />
-                -
-                <Input
-                  placeholder="highest"
-                  className="w-[25%]"
-                  value={maxPriceFilter}
-                  onChange={handleOnChangeMaxPrice}
-                />
-              </div>
-
-              <div className="flex items-center gap-2">
-                <Select
-                  defaultValue="all"
-                  onValueChange={(value: string) =>
-                    handleOnChangeCategory(value)
-                  }
-                >
-                  <SelectTrigger className="w-[180px]">
-                    <SelectValue placeholder="Subject" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="all">All Subjects</SelectItem>
-                    {skills.map((skill) => {
-                      return (
-                        <SelectItem value={skill.name}>{skill.name}</SelectItem>
-                      );
-                    })}
-                  </SelectContent>
-                </Select>
-              </div>
-
-              {/* <div className="flex items-center gap-2">
-                <Select defaultValue="any">
-                  <SelectTrigger className="w-[180px]">
-                    <SelectValue placeholder="Availability" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="any">Any Time</SelectItem>
-                    <SelectItem value="today">Today</SelectItem>
-                    <SelectItem value="week">This Week</SelectItem>
-                    <SelectItem value="weekend">Weekend</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div> */}
-              <Button variant="outline" size="icon" className="shrink-0">
-                <Filter className="h-4 w-4" onClick={handleOnClickFilter} />
-              </Button>
-            </div>
-          </div>
-        </div>
+      <section className="py-20 bg-gradient-to-b from-background to-muted/30">
+        <HeroSearch
+          tutors={tutors}
+          handleSearchClick={filter}
+          searchValue={searchFilter}
+          handleSearchChange={handleSearchChange}
+          skillSelect={skillCategoryFilter}
+          handleSkillSelect={handleSkillSelect}
+        />
       </section>
 
       {/* Main Content */}
       <main className="container px-4 md:px-6 py-8">
-        <Tabs defaultValue="featured" className="w-full">
-          {/* <div className="flex items-center justify-between mb-6">
-            <TabsList>
-              <TabsTrigger value="featured">Featured Teachers</TabsTrigger>
-              <TabsTrigger value="all">All Teachers</TabsTrigger>
-              <TabsTrigger value="new">New Teachers</TabsTrigger>
-            </TabsList>
-            <Link to="/teachers">
-              <Button variant="link">View All</Button>
-            </Link>
-          </div> */}
-
-          <TabsContent value="featured" className="space-y-8">
-            {/* Featured Teachers Grid */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-              {tutors.map((tutor) => (
-                <Card
-                  key={tutor._id}
-                  className="overflow-hidden hover:shadow-lg transition-shadow"
-                >
-                  <CardHeader className="p-0">
-                    <div className="relative h-48 bg-muted">
-                      <div className="absolute inset-0 flex items-center justify-center">
-                        <Avatar className="h-32 w-32 border-4 border-background">
-                          <AvatarImage
-                            src={tutor?.avatarUrl}
-                            alt={tutor.username}
-                          />
-                          <AvatarFallback>
-                            {tutor.fullname.charAt(0)}
-                          </AvatarFallback>
-                        </Avatar>
-                      </div>
-                    </div>
-                  </CardHeader>
-                  <CardContent className="pt-4 text-center">
-                    <CardTitle>{tutor.fullname}</CardTitle>
-                    <CardDescription>
-                      <div>
-                        {tutor.skills.map((skill, index) => {
-                          var st = skill.name;
-                          if (index < tutor.skills.length - 1) {
-                            st += " | ";
-                          }
-                          return st;
-                        })}
-                      </div>
-
-
-                      <div>
-                        Hourly Rate: {tutor.hourlyRate}
-                      </div>
-
-                      <div>
-                        Rating: {tutor.ratingAverage ? tutor.ratingAverage : 0}
-                      </div>
-
-                    </CardDescription>
-                    {/* <div className="flex items-center justify-center mt-2 gap-1">
-                      <Star className="h-4 w-4 fill-primary text-primary" />
-                      <span className="font-medium">{teacher.rating}</span>
-                    </div> */}
-                    <div className="mt-2 flex items-center justify-center gap-2">
-                      {/* <Badge
-                        variant="outline"
-                        className="flex gap-1 items-center"
-                      >
-                        <Clock className="h-3 w-3" />
-                        {teacher.availableSlots} slots
-                      </Badge> */}
-                      {/* <Badge variant="secondary">${teacher.price}/hr</Badge> */}
-                    </div>
-                  </CardContent>
-                  <CardFooter className="flex justify-between">
-                    {/* <Button
-                      variant="outline"
-                      size="sm"
-                      className="w-full gap-2"
-                    >
-                      See certs
-                    </Button> */}
-                    <Button
-                      size="sm"
-                      className="w-full gap-2"
-                      onClick={() => {
-                        navigate(`/student/booking/${tutor._id}`);
-                      }}
-                    >
-                      <Calendar className="h-4 w-4" />
-                      Book
-                    </Button>
-                  </CardFooter>
-                </Card>
-              ))}
-            </div>
-          </TabsContent>
-
-          <TabsContent value="all">
-            <TeacherGrid />
-          </TabsContent>
-
-          <TabsContent value="new">
-            <div className="text-center py-12">
-              <p className="text-muted-foreground">New teachers coming soon!</p>
-            </div>
-          </TabsContent>
-        </Tabs>
-
         <div className="container my-8">
           <Card className="lg:col-span-2">
             <CardHeader>
@@ -453,58 +490,17 @@ const HomePage = () => {
             </CardContent>
           </Card>
 
-          <Button className="mt-6" onClick={handleOnClickReview}>Let's Review some tutors !</Button>
+          <Button className="mt-6" onClick={handleOnClickReview}>
+            Let's Review some tutors !
+          </Button>
         </div>
       </main>
 
-      {/* Features Section */}
-      <section className="py-12 bg-muted/30">
-        <div className="container px-4 md:px-6">
-          <div className="text-center mb-8">
-            <h2 className="text-3xl font-bold tracking-tight">How It Works</h2>
-            <p className="text-muted-foreground mt-2">
-              Simple steps to start learning with expert teachers
-            </p>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="flex flex-col items-center text-center p-4">
-              <div className="bg-primary/10 p-3 rounded-full mb-4">
-                <Search className="h-6 w-6 text-primary" />
-              </div>
-              <h3 className="text-xl font-bold mb-2">Find Your Teacher</h3>
-              <p className="text-muted-foreground">
-                Browse profiles, read reviews, and find the perfect teacher for
-                your needs.
-              </p>
-            </div>
-            <div className="flex flex-col items-center text-center p-4">
-              <div className="bg-primary/10 p-3 rounded-full mb-4">
-                <Calendar className="h-6 w-6 text-primary" />
-              </div>
-              <h3 className="text-xl font-bold mb-2">Book a Lesson</h3>
-              <p className="text-muted-foreground">
-                Select an available time slot and make a secure payment to book
-                your lesson.
-              </p>
-            </div>
-            <div className="flex flex-col items-center text-center p-4">
-              <div className="bg-primary/10 p-3 rounded-full mb-4">
-                <Video className="h-6 w-6 text-primary" />
-              </div>
-              <h3 className="text-xl font-bold mb-2">Start Learning</h3>
-              <p className="text-muted-foreground">
-                Join your lesson via video call, chat with your teacher, and
-                enhance your skills.
-              </p>
-            </div>
-          </div>
-          <div className="text-center mt-8">
-            <Link to="/signup">
-              <Button size="lg">Get Started Today</Button>
-            </Link>
-          </div>
-        </div>
-      </section>
+      <TeacherReviewsSection />
+
+      <FeaturesSection />
+
+      <BecomeTutorSection />
 
       {/* Footer */}
       <footer className="border-t py-8 md:py-12">
@@ -530,12 +526,12 @@ const HomePage = () => {
                   </Link>
                 </li>
                 <li>
-                  <Link
-                    to="/how-it-works"
+                  <a
+                    href="#how-it-works"
                     className="text-muted-foreground hover:text-foreground"
                   >
                     How It Works
-                  </Link>
+                  </a>
                 </li>
                 <li>
                   <Link
@@ -605,6 +601,7 @@ const HomePage = () => {
           </div>
         </div>
       </footer>
+      <ChatBotSection />
     </div>
   );
 };

@@ -30,6 +30,7 @@ import AdminDashboard from "./pages/admin/AdminDashboard";
 import ReceiptsPage from "./components/ReceiptsPage";
 import { TutorReview } from "./pages/student/review/TutorReview";
 import { TutorDetails } from "./pages/student/tutorDetails/TutorDetails";
+import HeroSearch from "./components/HeroSearch";
 
 
 function App() {
@@ -66,34 +67,25 @@ function App() {
             element={<PaymentConfirmationPage />}
           />
           <Route path="/payment-failed" element={<PaymentFailedPage />} />
-
           <Route path="/tutor/skills/list" element={<SkillsList />} />
-
           <Route path="/tutor/skills/create" element={<AddSkillForm />} />
-
           <Route path="/tutor/pricing" element={<PricingPage />} />
-
           <Route
             path="/tutor/skills/edit/:skillId"
             element={<EditSkillForm />}
           />
-
           <Route path="/tutor/schedule" element={<EditSlotsForm />} />
           <Route
             path="/tutor/certifications"
             element={<TutorCertificationsPage />}
           />
-
           <Route path="/student/booking/:tutorId" element={<BookingForm />} />
-
           <Route path="/start-meeting" element={<StartMeetingPage />} />
           <Route path="/room/:id" element={<Room />} />
 
           {/* Routes for Admin pages */}
-
           <Route path="/admin/dashboard" element={<AdminDashboard />} />
           <Route path="/admin/tutors-approval" element={<TutorsApproval />} />
-
           <Route path="/student/review" element={<TutorReview />} />
           <Route path="/student/tutor-details/:tutorId" element={<TutorDetails />} />
         </Routes>

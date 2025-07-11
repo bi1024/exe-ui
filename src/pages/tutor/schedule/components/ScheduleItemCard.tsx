@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { RoomContext } from "@/context/RoomContext";
 import { MessageSquare, Video } from "lucide-react";
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 export interface LessonRaw {
@@ -20,6 +20,7 @@ export interface LessonRaw {
     createdAt: string;
     updatedAt: string;
     __v: number;
+    avatarUrl?: string
   };
   startTime: string;
   endTime: string;
@@ -45,17 +46,26 @@ const ScheduleItemCard = ({ lesson }: ScheduleItemCardProps) => {
   const startTimeObject = new Date(lesson.startTime);
   const endTimeObject = new Date(lesson.endTime);
 
-  const { ws, myPeer } = useContext(RoomContext);
+  const [waitingToJoin, setWaitingToJoin] = useState<boolean>(false);
+  const { ws, myPeer, isPeerReady, initialize } = useContext(RoomContext);
 
   function handleJoinRoom() {
-    ws.emit("join-room", {
-      peerId: (myPeer as any)._id,
-      scheduleId: lesson._id,
-    });
-    ws.on("join-succeed", ({ roomId }: { roomId: string }) => {
-      navigate(`/room/${roomId}`);
-    });
+    initialize();
+    setWaitingToJoin(true);
   }
+
+  useEffect(() => {
+    if(waitingToJoin && myPeer && isPeerReady) {
+      ws.emit("join-room", {
+        peerId: (myPeer as any)._id,
+        scheduleId: lesson._id,
+      });
+      ws.on("join-succeed", ({ roomId }: { roomId: string }) => {
+        setWaitingToJoin(false);
+        navigate(`/room/${roomId}`);
+      });
+    }
+  }, [waitingToJoin, myPeer, isPeerReady]);
 
   return (
     <Card key={lesson._id}>

@@ -4,7 +4,7 @@ import { RoomContext } from "@/context/RoomContext";
 
 import { AvatarImage } from "@radix-ui/react-avatar";
 import { Clock, Video } from "lucide-react";
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 // basic interface of Lesson
@@ -19,17 +19,26 @@ const ScheduleItemForTutorCard = ({ lesson }) => {
   const startTimeObject = new Date(lesson?.startTime);
   const endTimeObject = new Date(lesson?.endTime);
 
-  const { ws, myPeer } = useContext(RoomContext);
+  const [waitingToJoin, setWaitingToJoin] = useState<boolean>(false);
+  const { ws, myPeer, isPeerReady, initialize } = useContext(RoomContext);
 
   function handleJoinRoom() {
-    ws.emit("join-room", {
-      peerId: (myPeer as any)._id,
-      scheduleId: lesson._id,
-    });
-    ws.on("join-succeed", ({ roomId }: { roomId: string }) => {
-      navigate(`/room/${roomId}`);
-    });
+    initialize();
+    setWaitingToJoin(true);
   }
+
+  useEffect(() => {
+    if(waitingToJoin && myPeer && isPeerReady) {
+      ws.emit("join-room", {
+        peerId: (myPeer as any)._id,
+        scheduleId: lesson._id,
+      });
+      ws.on("join-succeed", ({ roomId }: { roomId: string }) => {
+        setWaitingToJoin(false);
+        navigate(`/room/${roomId}`);
+      });
+    }
+  }, [waitingToJoin, myPeer, isPeerReady]);
 
   return (
     <div
