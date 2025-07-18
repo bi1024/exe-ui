@@ -23,11 +23,13 @@ export default function Profile() {
   const [isEditing, setIsEditing] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [selectedImage, setSelectedImage] = useState(null);
+  const [videoFile, setVideoFile] = useState<File | null>(null);
   const [profile, setProfile] = useState({
     fullname: "Alex Johnson",
     avatarUrl: "",
     email: "alex.johnson@email.com",
     phone: "+1 (555) 123-4567",
+    role: "user",
     location: "New York, NY",
     bio: "Passionate learner interested in mathematics, science, and programming. Looking to improve my skills through personalized tutoring sessions.",
     createdAt: "January 2024",
@@ -69,6 +71,27 @@ export default function Profile() {
     setIsEditing(false);
 
     // Reset form data if needed
+  };
+
+  const uploadVideo = async () => {
+    if (!videoFile) return;
+
+    const formData = new FormData();
+    formData.append("video", videoFile);
+
+    try {
+      const res = await apiClient.post("/tutor/video", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+
+      const data = res.data;
+      console.log(data);
+      // setVideoUrl(data.videoUrl);
+    } catch (error) {
+      console.error("Video upload failed", error);
+    }
   };
 
   return (
@@ -219,6 +242,20 @@ export default function Profile() {
                   )}
                 </CardContent>
               </Card>
+
+              {profile.role === "tutor" ? (
+                <div>
+                  <Input
+                    type="file"
+                    accept="video/*"
+                    onChange={(e) => setVideoFile(e.target.files?.[0] || null)}
+                  />
+
+                  <Button onClick={uploadVideo}>Upload Video</Button>
+                </div>
+              ) : (
+                ""
+              )}
 
               {/* Learning Stats */}
               {/* <Card>
