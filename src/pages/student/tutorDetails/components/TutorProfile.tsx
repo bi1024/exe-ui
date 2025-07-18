@@ -8,6 +8,7 @@ export interface IProfile {
     email: string
     createdAt: string
     bio: string
+    videoUrl:string
 }
 
 export function TutorProfile({ profile }: { profile: IProfile }) {
