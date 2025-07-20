@@ -22,7 +22,14 @@ interface Props {
   handleSkillSelect: (value: string) => void;
 }
 
-export default function HeroSearch({ tutors, handleSearchClick, searchValue, handleSearchChange, skillSelect, handleSkillSelect } : Props) {
+export default function HeroSearch({
+  tutors,
+  handleSearchClick,
+  searchValue,
+  handleSearchChange,
+  skillSelect,
+  handleSkillSelect,
+}: Props) {
   const scrollRef = useRef<HTMLDivElement>(null);
 
   const scrollLeft = () => {
@@ -41,7 +48,8 @@ export default function HeroSearch({ tutors, handleSearchClick, searchValue, han
     <div>
       <section className="h-[40vh] bg-gradient-to-b from-white to-[#e5ebfb] flex flex-col items-center px-4 text-center">
         <h1 className="text-4xl sm:text-5xl font-extrabold leading-tight mb-4">
-          Tìm giáo viên <span className="text-[#3453B6]">phù hợp</span> với bạn
+          Find a <span className="text-[#3453B6]">teacher</span> that{" "}
+          <span className="text-[#3453B6]">fits</span> you
         </h1>
 
         <div className="flex w-full h-14 max-w-xl rounded-full overflow-hidden shadow-lg bg-white mt-6">
@@ -51,7 +59,7 @@ export default function HeroSearch({ tutors, handleSearchClick, searchValue, han
           <Input
             value={searchValue}
             onChange={(e) => handleSearchChange(e.target.value)}
-            placeholder="Bạn muốn học gì?"
+            placeholder="What do you want to look up?"
             className="h-full border-0 focus-visible:ring-0 focus-visible:ring-offset-0 text-xl"
           />
           <Button
@@ -59,7 +67,7 @@ export default function HeroSearch({ tutors, handleSearchClick, searchValue, han
             style={{ backgroundColor: "#3453B6" }}
             onClick={handleSearchClick}
           >
-            Tìm kiếm
+            Search
           </Button>
         </div>
 
@@ -75,22 +83,22 @@ export default function HeroSearch({ tutors, handleSearchClick, searchValue, han
             style={{ scrollbarWidth: "none" }}
           >
             {skills.map((skill, index) => {
-            const isSelected = skill.name === skillSelect;
+              const isSelected = skill.name === skillSelect;
 
-            return (
+              return (
                 <div
-                key={index}
-                className="flex items-center justify-center h-10 px-4 py-1 whitespace-nowrap text-base font-medium rounded-full cursor-pointer transition border"
-                style={{
+                  key={index}
+                  className="flex items-center justify-center h-10 px-4 py-1 whitespace-nowrap text-base font-medium rounded-full cursor-pointer transition border"
+                  style={{
                     backgroundColor: isSelected ? "#3453B6" : "#d9e0f9",
                     color: isSelected ? "#ffffff" : "#3453B6",
                     borderColor: isSelected ? "#3453B6" : "transparent",
-                }}
-                onClick={() => handleSkillSelect(skill.name)}
+                  }}
+                  onClick={() => handleSkillSelect(skill.name)}
                 >
-                {skill.name}
+                  {skill.name}
                 </div>
-            );
+              );
             })}
           </div>
 
