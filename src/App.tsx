@@ -31,7 +31,7 @@ import ReceiptsPage from "./components/ReceiptsPage";
 import { TutorReview } from "./pages/student/review/TutorReview";
 import { TutorDetails } from "./pages/student/tutorDetails/TutorDetails";
 import HeroSearch from "./components/HeroSearch";
-
+import Contacts from "./components/Contacts";
 
 function App() {
   const dispatch = useDispatch();
@@ -57,6 +57,7 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/contacts" element={<Contacts />} />
           <Route path="/tutor/dashboard" element={<TutorDashboard />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/lesson/:lessonId" element={<LessonInfoPage />} />
@@ -87,7 +88,10 @@ function App() {
           <Route path="/admin/dashboard" element={<AdminDashboard />} />
           <Route path="/admin/tutors-approval" element={<TutorsApproval />} />
           <Route path="/student/review" element={<TutorReview />} />
-          <Route path="/student/tutor-details/:tutorId" element={<TutorDetails />} />
+          <Route
+            path="/student/tutor-details/:tutorId"
+            element={<TutorDetails />}
+          />
         </Routes>
 
         {import.meta.env.VITE_TEMPO === "true" && useRoutes(routes)}

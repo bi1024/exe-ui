@@ -45,6 +45,16 @@ import { skills } from "@/pages/tutor/skills/AddSkillForm";
 import { ISkill } from "@/pages/tutor/skills/SkillsList";
 import HeroSearch from "./HeroSearch";
 import ChatBotSection from "./chatbot/ChatBotSection";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "./ui/carousel";
+import CarouselItemComponent from "./common/CarouselItemComponent";
+import HowSkillFlowWorksCurved from "./common/HowSkillFlowWorksCurved";
+import FeaturedArticlesComponent from "./common/FeaturedArticlesComponent";
 
 export interface ITutor {
   _id: string;
@@ -65,7 +75,7 @@ function IntroSection() {
           <div className="flex flex-col justify-center space-y-4">
             <div className="space-y-2">
               <h1 className="text-3xl font-bold tracking-tighter sm:text-5xl xl:text-6xl/none">
-                Learn From Expert Teachers Anytime, Anywhere
+                Learn From Tutors, Teachers Anytime, Anywhere
               </h1>
               <p className="max-w-[600px] text-muted-foreground md:text-xl">
                 Book personalized lessons, chat with teachers, and join video
@@ -86,13 +96,37 @@ function IntroSection() {
             </div>
           </div>
           <div className="mx-auto lg:mx-0 relative">
-            <img
+            {/* <img
               src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=800&q=80"
               alt="Students learning online"
               className="mx-auto aspect-video overflow-hidden rounded-xl object-cover sm:w-full lg:order-last"
               width="550"
               height="310"
-            />
+            /> */}
+            <Carousel className="w-full ">
+              <CarouselContent>
+                <CarouselItemComponent
+                  index={1}
+                  url={
+                    "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=800&q=80"
+                  }
+                />
+                <CarouselItemComponent
+                  index={2}
+                  url={
+                    "https://clueylearning.com.au/wp-content/uploads/2019/10/What-is-tutoring-Different-types-of-tutoring-explained.jpg"
+                  }
+                />
+                <CarouselItemComponent
+                  index={3}
+                  url={
+                    "https://lydianacademy.com/wp-content/uploads/2022/06/mother-help-girl-doing-homework-at-home.jpg"
+                  }
+                />
+              </CarouselContent>
+              <CarouselPrevious />
+              <CarouselNext />
+            </Carousel>
             <div className="absolute -bottom-6 -right-6 bg-background rounded-lg shadow-lg p-4 hidden md:block">
               <div className="flex items-center gap-2">
                 <Video className="h-5 w-5 text-primary" />
@@ -100,6 +134,83 @@ function IntroSection() {
               </div>
             </div>
           </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function DetailsSection() {
+  return (
+    <section className="py-12">
+      <div className="container mx-auto text-center">
+        <h2 className="text-3xl font-bold mb-4">Skill Flow Mastery</h2>
+        <p className="text-primary font-semibold text-lg mb-2">
+          Practical – Interactive – Effective
+        </p>
+        <p className="max-w-xl mx-auto text-muted-foreground">
+          Level up your skills with real-time classes and expert mentors at
+          Skill Flow.
+        </p>
+      </div>
+
+      <div className="container mx-auto mt-12 flex flex-col md:flex-row items-center gap-8">
+        {/* Left Description */}
+        <div className="md:w-1/2 text-center md:text-left space-y-4">
+          <h3 className="text-xl font-semibold">Why Skill Flow?</h3>
+          <p>
+            While other platforms offer static, pre-recorded lessons, Skill Flow
+            delivers live, hands-on learning experiences designed to match your
+            pace and passion.
+          </p>
+          <p>
+            Every session is interactive, mentor-guided, and built to help you
+            grow in real projects and real-world scenarios.
+          </p>
+        </div>
+
+        {/* Right Image or Illustration */}
+        <div className="md:w-1/2">
+          <img
+            src="https://www.21kschool.com/vn/wp-content/uploads/sites/5/2023/09/Discover-the-Bright-Side-The-Surprising-Benefits-of-Online-Learning.png"
+            alt="Live learning illustration"
+            className="rounded-xl w-full object-cover"
+          />
+        </div>
+      </div>
+
+      {/* Features */}
+      <div className="container mx-auto mt-16 grid grid-cols-1 md:grid-cols-4 gap-6 text-center">
+        <div className="space-y-2">
+          <h4 className="font-semibold">Personalized Learning</h4>
+          <p className="text-muted-foreground text-sm">
+            We adapt to your learning style. Get direct support from mentors and
+            feedback tailored to your goals, skill level, and learning speed.
+          </p>
+        </div>
+
+        <div className="space-y-2">
+          <h4 className="font-semibold">Real-Time Lessons</h4>
+          <p className="text-muted-foreground text-sm">
+            Learn by doing, not just watching. Join live classes where you can
+            ask questions and receive instant feedback.
+          </p>
+        </div>
+
+        <div className="space-y-2">
+          <h4 className="font-semibold">Full-Spectrum Skill Coverage</h4>
+          <p className="text-muted-foreground text-sm">
+            All the skills you need – in one place. From copywriting to
+            marketing, with project-based learning that sticks.
+          </p>
+        </div>
+
+        <div className="space-y-2">
+          <h4 className="font-semibold">Efficient Learning</h4>
+          <p className="text-muted-foreground text-sm">
+            Focused, fast-paced classes designed for real results — not generic
+            content.
+          </p>
         </div>
       </div>
     </section>
@@ -459,6 +570,12 @@ const HomePage = () => {
 
       <IntroSection />
 
+      <DetailsSection />
+
+      <FeaturesSection />
+
+      {/* <HowSkillFlowWorksCurved /> */}
+
       <section className="py-20 bg-gradient-to-b from-background to-muted/30">
         <HeroSearch
           tutors={tutors}
@@ -498,7 +615,7 @@ const HomePage = () => {
 
       <TeacherReviewsSection />
 
-      <FeaturesSection />
+      <FeaturedArticlesComponent />
 
       <BecomeTutorSection />
 
@@ -596,7 +713,7 @@ const HomePage = () => {
           </div>
           <div className="border-t mt-8 pt-6 text-center text-muted-foreground">
             <p>
-              &copy; {new Date().getFullYear()} LessonHub. All rights reserved.
+              &copy; {new Date().getFullYear()} SkillFlow. All rights reserved.
             </p>
           </div>
         </div>

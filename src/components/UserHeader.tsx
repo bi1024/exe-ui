@@ -27,6 +27,18 @@ const UserHeader = () => {
             />
           </Link>
           <nav className="hidden md:flex items-center gap-6">
+            <Link to="/" className="text-sm font-medium">
+              Home
+            </Link>
+            <Link to="/" className="text-sm font-medium">
+              Tutors
+            </Link>
+            <Link to="/" className="text-sm font-medium">
+              Blog
+            </Link>
+            <Link to="/contacts" className="text-sm font-medium">
+              Contacts
+            </Link>
             {/* <Link to="/" className="text-sm font-medium">
               Home
             </Link>
