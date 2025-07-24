@@ -69,29 +69,27 @@ export interface ITutor {
 
 function IntroSection() {
   return (
-    <section className="py-12 md:py-24 lg:py-32 bg-gradient-to-b from-background to-muted/30">
-      <div className="container px-4 md:px-6">
+    <section className="py-12 md:py-24 lg:py-32 bg-gradient-to-r from-blue-300 to-customBlue">
+      <div className="container px-4 md:px-6 ">
         <div className="grid gap-6 lg:grid-cols-2 lg:gap-12 items-center">
-          <div className="flex flex-col justify-center space-y-4">
+          <div className="flex flex-col justify-center space-y-4 ">
             <div className="space-y-2">
-              <h1 className="text-3xl font-bold tracking-tighter sm:text-5xl xl:text-6xl/none">
+              <h1 className="text-3xl font-bold tracking-tighter sm:text-5xl xl:text-6xl/none text-white">
                 Learn From Tutors, Teachers Anytime, Anywhere
               </h1>
-              <p className="max-w-[600px] text-muted-foreground md:text-xl">
+              <p className="max-w-[600px] text-muted-foreground md:text-xl text-white">
                 Book personalized lessons, chat with teachers, and join video
                 classes all in one platform.
               </p>
             </div>
             <div className="flex flex-col gap-2 min-[400px]:flex-row">
               <Link to="/teachers">
-                <Button size="lg" className="gap-2">
+                <Button size="lg" variant="outline" className="gap-2">
                   Find Teachers
                 </Button>
               </Link>
               <a href="#how-it-works">
-                <Button size="lg" variant="outline">
-                  How It Works
-                </Button>
+                <Button size="lg">How It Works</Button>
               </a>
             </div>
           </div>
@@ -141,11 +139,34 @@ function IntroSection() {
 }
 
 function DetailsSection() {
+  const features = [
+    {
+      title: "Personalized Learning",
+      desc: "We adapt to your learning style. Get direct support from mentors and feedback tailored to your goals, skill level, and learning speed.",
+      pic: "https://res.cloudinary.com/dsvllb1am/image/upload/v1753380554/exe/pic1_g9tda5.png",
+    },
+    {
+      title: "Real‑Time Lessons",
+      desc: "Learn by doing, not just watching. Join live classes where you can ask questions and receive instant feedback.",
+      pic: "https://res.cloudinary.com/dsvllb1am/image/upload/v1753380555/exe/pic2_usncyv.png",
+    },
+    {
+      title: "Full‑Spectrum Skill Coverage",
+      desc: "All the skills you need – in one place. From copywriting to marketing, with project‑based learning that sticks.",
+      pic: "https://res.cloudinary.com/dsvllb1am/image/upload/v1753380555/exe/pic3_genhtz.png",
+    },
+    {
+      title: "Efficient Learning",
+      desc: "Focused, fast‑paced classes designed for real results — not generic content.",
+      pic: "https://res.cloudinary.com/dsvllb1am/image/upload/v1753380555/exe/pic4_rw1o6c.png",
+    },
+  ];
+
   return (
-    <section className="py-12">
+    <section className="py-16 bg-white">
       <div className="container mx-auto text-center">
-        <h2 className="text-3xl font-bold mb-4">Skill Flow Mastery</h2>
-        <p className="text-primary font-semibold text-lg mb-2">
+        <h2 className="text-3xl font-bold mb-2">SKILL FLOW</h2>
+        <p className="text-primary font-semibold text-lg mb-4">
           Practical – Interactive – Effective
         </p>
         <p className="max-w-xl mx-auto text-muted-foreground">
@@ -154,64 +175,21 @@ function DetailsSection() {
         </p>
       </div>
 
-      <div className="container mx-auto mt-12 flex flex-col md:flex-row items-center gap-8">
-        {/* Left Description */}
-        <div className="md:w-1/2 text-center md:text-left space-y-4">
-          <h3 className="text-xl font-semibold">Why Skill Flow?</h3>
-          <p>
-            While other platforms offer static, pre-recorded lessons, Skill Flow
-            delivers live, hands-on learning experiences designed to match your
-            pace and passion.
-          </p>
-          <p>
-            Every session is interactive, mentor-guided, and built to help you
-            grow in real projects and real-world scenarios.
-          </p>
-        </div>
+      <div className="container mx-auto mt-10 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
+        {features.map((f, idx) => (
+          <div
+            key={idx}
+            className="bg-white rounded-xl p-6 shadow-lg hover:shadow-xl transition"
+          >
+            {/* <img src={f.pic} alt="Picture" className="w-10 h-10"></img> */}
+            <div className="p-8">
+              <img src={f.pic} alt="Example" className="w-full rounded-lg" />
+            </div>
 
-        {/* Right Image or Illustration */}
-        <div className="md:w-1/2">
-          <img
-            src="https://www.21kschool.com/vn/wp-content/uploads/sites/5/2023/09/Discover-the-Bright-Side-The-Surprising-Benefits-of-Online-Learning.png"
-            alt="Live learning illustration"
-            className="rounded-xl w-full object-cover"
-          />
-        </div>
-      </div>
-
-      {/* Features */}
-      <div className="container mx-auto mt-16 grid grid-cols-1 md:grid-cols-4 gap-6 text-center">
-        <div className="space-y-2">
-          <h4 className="font-semibold">Personalized Learning</h4>
-          <p className="text-muted-foreground text-sm">
-            We adapt to your learning style. Get direct support from mentors and
-            feedback tailored to your goals, skill level, and learning speed.
-          </p>
-        </div>
-
-        <div className="space-y-2">
-          <h4 className="font-semibold">Real-Time Lessons</h4>
-          <p className="text-muted-foreground text-sm">
-            Learn by doing, not just watching. Join live classes where you can
-            ask questions and receive instant feedback.
-          </p>
-        </div>
-
-        <div className="space-y-2">
-          <h4 className="font-semibold">Full-Spectrum Skill Coverage</h4>
-          <p className="text-muted-foreground text-sm">
-            All the skills you need – in one place. From copywriting to
-            marketing, with project-based learning that sticks.
-          </p>
-        </div>
-
-        <div className="space-y-2">
-          <h4 className="font-semibold">Efficient Learning</h4>
-          <p className="text-muted-foreground text-sm">
-            Focused, fast-paced classes designed for real results — not generic
-            content.
-          </p>
-        </div>
+            <h4 className="font-semibold mb-2">{f.title}</h4>
+            <p className="text-sm text-muted-foreground">{f.desc}</p>
+          </div>
+        ))}
       </div>
     </section>
   );
@@ -565,7 +543,7 @@ const HomePage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background ">
       <UserHeader />
 
       <IntroSection />

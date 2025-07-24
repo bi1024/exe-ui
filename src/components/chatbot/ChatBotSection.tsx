@@ -51,13 +51,15 @@ const ChatBotSection = () => {
           {user?.email ? (
             <Button
               size="icon"
-              className="rounded-full shadow-lg bg-primary text-white hover:bg-primary/90"
+              variant="outline"
+              className="rounded-full shadow-lg bg-primary text-white hover:bg-primary/90 w-16 h-16"
               onClick={() => {
                 // Example: open chat modal or redirect
                 console.log("Clicked action button!");
               }}
             >
-              <MessageCircle className="w-5 h-5" />
+              <img src="https://res.cloudinary.com/dsvllb1am/image/upload/v1753380554/exe/normal_cmrqun.png" alt="Mascot" className="w-10 h-10"></img>
+              {/* <MessageCircle className="w-5 h-5" /> */}
             </Button>
           ) : (
             ""

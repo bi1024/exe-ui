@@ -6,12 +6,14 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useEffect, useState } from "react";
 import apiClient from "@/api/apiClient";
 import UserChart from "./components/UserChart";
+import RevenueChart from "./components/RevenueChart";
 
 export default function AdminDashboard() {
   const navigate = useNavigate();
   const [trafficData, setTrafficData] = useState([]);
   const [userData, setUserData] = useState([]);
   const [profit, setProfit] = useState(0);
+  const [revenueData, setRevenueData] = useState([]);
 
   function handleClickApproveTutors() {
     navigate("/admin/tutors-approval");
@@ -35,10 +37,20 @@ export default function AdminDashboard() {
       // console.log(result.totalAmount);
       setProfit(response.data);
     };
+    const getRevenueCount = async () => {
+      const response = await apiClient.get("/utility/revenue-count");
+      console.log(response.data);
+      // const [result] = response.data;
+      // console.log(result.totalAmount);
+      setRevenueData(response.data);
+    };
     getDailyTraffic();
     getDailyUserAggregate();
     getProfitCount();
+    getRevenueCount();
   }, []);
+
+  console.log(revenueData);
 
   return (
     <div className="flex flex-col">
@@ -79,6 +91,22 @@ export default function AdminDashboard() {
               <div className="text-right text-2xl font-bold text-green-600">
                 {profit}
               </div>
+            </CardContent>
+          </Card>
+          <Card className="w-1/2 shadow-md border border-gray-200 bg-white rounded-2xl">
+            <CardHeader>
+              <CardTitle className="text-lg font-semibold text-gray-700">
+                Revenue
+              </CardTitle>
+            </CardHeader>
+
+            <CardContent>
+              {/* <div className="text-right text-2xl font-bold text-green-600">
+                {profit}
+              </div> */}
+              <CardContent>
+                <RevenueChart revenueData={revenueData} />
+              </CardContent>
             </CardContent>
           </Card>
         </div>
