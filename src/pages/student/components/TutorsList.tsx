@@ -83,10 +83,10 @@ export default function TutorsList({ tutors }: Props) {
                 </CardTitle>
               </div>
 
-              {/* Badge */}
+              {/* Badge
               <div className="absolute top-4 right-4 bg-purple-600 text-white px-2 py-1 rounded-full text-xs font-semibold">
                 + Ambassador
-              </div>
+              </div> */}
             </div>
           </CardHeader>
 

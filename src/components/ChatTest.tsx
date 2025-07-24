@@ -4,9 +4,11 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 export default function ChatTest() {
-  const [messages, setMessages] = useState<
-    { role: "user" | "bot"; content: string }[]
-  >([]);
+  // const [messages, setMessages] = useState<
+  //   { role: "user" | "bot"; content: string }[]
+  // >([]);
+
+  const [messages, setMessages] = useState<any[]>([]);
   const [input, setInput] = useState("");
   const messagesEndRef = useRef<HTMLDivElement | null>(null);
 
@@ -70,6 +72,7 @@ export default function ChatTest() {
             onChange={(e) => setInput(e.target.value)}
             onKeyDown={(e) => e.key === "Enter" && sendMessage()}
           />
+
           <Button onClick={sendMessage}>Send</Button>
         </div>
       </CardContent>
