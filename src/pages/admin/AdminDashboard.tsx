@@ -83,7 +83,7 @@ export default function AdminDashboard() {
           <Card className="w-1/2 shadow-md border border-gray-200 bg-white rounded-2xl">
             <CardHeader>
               <CardTitle className="text-lg font-semibold text-gray-700">
-                Profit
+                Revenue
               </CardTitle>
             </CardHeader>
 
