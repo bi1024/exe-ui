@@ -111,9 +111,9 @@ export default function TutorsList({ tutors }: Props) {
           <CardFooter className="flex flex-col items-start px-4 pb-4 pt-0">
             <div className="flex items-baseline text-lg font-bold text-gray-800">
               {tutor.hourlyRate}vnd/h{" "}
-              <span className="ml-2 text-sm text-red-500 font-normal">
+              {/* <span className="ml-2 text-sm text-red-500 font-normal">
                 • 1st lesson free
-              </span>
+              </span> */}
             </div>
             <Button
               size="sm"
